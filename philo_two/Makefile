@@ -4,6 +4,7 @@
 NAME	= exec
 CXX	= gcc
 CFLAGS	= -Wall -Werror -Wextra
+LDFLAGS = -lpthread
 
 SRCDIR	= ./
 INCDIR	= include/
@@ -14,7 +15,7 @@ CXXFLAGS	+= -I $(INCDIR)
 SRCS	= 		main.c
 
 SRC		:= $(notdir $(SRCS)) # 					Files only
-OBJ		:= $(SRC:.cpp=.o)	#					Files only
+OBJ		:= $(SRC:.c=.o)	#					Files only
 OBJS	:= $(addprefix $(OBJDIR), $(OBJ)) #		Full path
 CSRCS	:= $(addprefix ../, $(SRCS)) #			Compiler
 
@@ -31,13 +32,13 @@ all : $(NAME)
 #	linking
 $(NAME)	: $(OBJS)
 	@printf "$(YE)&&& Linking $(OBJ) to $(NAME)$(RC)"
-	$(CXX) $(CXXFLAGS) -o $(NAME) $(OBJS)
+	$(CXX) $(LDFLAGS) $(CXXFLAGS) -o $(NAME) $(OBJS)
 
 #	compiling
 $(OBJS) : $(SRCS)
 	@printf "$(GR)+++ Compiling $(SRC) to $(OBJ)$(RC)"
 	@mkdir -p $(OBJDIR)
-	@cd $(OBJDIR) && $(CXX) $(CXXFLAGS) -I ../$(INCDIR) -c $(CSRCS)
+	@cd $(OBJDIR) && $(CXX) $(LDFLAGS) $(CXXFLAGS) -I ../$(INCDIR) -c $(CSRCS)
 
 #	runnng
 
