@@ -6,7 +6,7 @@
 /*   By: adorigo <adorigo@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/10 18:44:12 by adorigo           #+#    #+#             */
-/*   Updated: 2020/08/04 10:48:37 by adorigo          ###   ########.fr       */
+/*   Updated: 2020/11/30 11:59:22 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,18 +22,22 @@
 
 typedef struct	s_philosopher
 {
-	int			amount;
-	uint64_t	time_to_die;
-	uint64_t	time_to_eat;
-	uint64_t	time_to_sleep;
-	int			must_eat_count;
+	unsigned long	time_to_die;
+	unsigned long	time_to_eat;
+	unsigned long	time_to_sleep;
+	unsigned long	last_time_ate;
 
-	uint64_t	start;
+	unsigned long	start;
+
+	int				must_eat_count;
+	int				is_dead;
+
 }				t_philo;
 
 typedef struct	s_context
 {
-	
-}
+	unsigned long	number_philos;
+	unsigned long	
+}				t_context;
 
 #endif

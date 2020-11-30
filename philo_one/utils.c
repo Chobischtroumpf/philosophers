@@ -6,7 +6,7 @@
 /*   By: adorigo <adorigo@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/11 10:17:25 by adorigo           #+#    #+#             */
-/*   Updated: 2020/08/04 10:45:19 by adorigo          ###   ########.fr       */
+/*   Updated: 2020/11/30 11:24:48 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int
 }
 
 void
-	ft_putnbr_fd(uint64_t n, int fd)
+	ft_putnbr_fd(unsigned long n, int fd)
 {
 	char	str[13];
 	int		length;
