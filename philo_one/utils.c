@@ -6,14 +6,20 @@
 /*   By: adorigo <adorigo@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/11 10:17:25 by adorigo           #+#    #+#             */
-/*   Updated: 2020/11/30 11:24:48 by adorigo          ###   ########.fr       */
+/*   Updated: 2020/12/03 23:34:31 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-int
-	ft_strlen(char const *str)
+t_context		*ft_get_context()
+{
+	static t_context context;
+
+	return(&context);
+}
+
+int				 ft_strlen(char const *str)
 {
 	int	i;
 
@@ -23,8 +29,7 @@ int
 	return (i);
 }
 
-int
-	ft_atoi(char const *str)
+int				ft_atoi(char const *str)
 {
 	int	i;
 	int	start;
@@ -47,8 +52,7 @@ int
 	return (res * is_neg);
 }
 
-void
-	ft_putnbr_fd(unsigned long n, int fd)
+void			ft_putnbr_fd(unsigned long n, int fd)
 {
 	char	str[13];
 	int		length;
@@ -67,16 +71,20 @@ void
 		write(fd, &str[length--], 1);
 }
 
-uint64_t
-	get_time(void)
+unsigned long	get_time(void)
 {
 	static struct timeval	tv;
 
 	gettimeofday(&tv, NULL);
-	return ((tv.tv_sec * (uint64_t)1000) + (tv.tv_usec / 1000));
+	return ((tv.tv_sec * (unsigned long)1000) + (tv.tv_usec / 1000));
 }
 
-void	ft_putstr_fd(char *str, int fd)
+void			ft_putchar_fd(char c, int fd)
+{
+	write(fd, &c, 1);
+}
+
+void			ft_putstr_fd(char *str, int fd)
 {
 	if (!str)
 		return ;
@@ -85,4 +93,27 @@ void	ft_putstr_fd(char *str, int fd)
 		ft_putchar_fd(*str, fd);
 		str++;
 	}
+}
+
+size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
+{
+	size_t i;
+	size_t j;
+	size_t x;
+
+	i = 0;
+	j = 0;
+	x = 0;
+	while (dst[i] != 0)
+		i++;
+	while (src[j] != 0)
+		j++;
+	if (i < dstsize)
+		j = i + j;
+	else
+		j = j + dstsize;
+	while (src[x] != '\0' && i + 1 < dstsize)
+		dst[i++] = src[x++];
+	dst[i] = '\0';
+	return (j);
 }
