@@ -6,7 +6,7 @@
 /*   By: adorigo <adorigo@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/03 22:17:02 by adorigo           #+#    #+#             */
-/*   Updated: 2020/12/03 23:33:52 by adorigo          ###   ########.fr       */
+/*   Updated: 2020/12/08 12:34:30 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,15 +72,9 @@ void		print(t_context *context, t_philo *philo, t_status s)
 		ft_strlcat(buff, " has taken a fork\n", 100);
 	else if (s == DEAD)
 		ft_strlcat(buff, " died\n", 100);
-	pthread_mutex_lock(&context->someone_died);
 	if (context->philo_dead)
-	{
-		pthread_mutex_unlock(&context->someone_died);
 		return ;
-	}
-	pthread_mutex_unlock(&context->someone_died);
 	pthread_mutex_lock(&context->print);
 	ft_putstr_fd(buff, 1);
-	if (!(s == DEAD))
-		pthread_mutex_unlock(&context->print);
+	pthread_mutex_unlock(&context->print);
 }

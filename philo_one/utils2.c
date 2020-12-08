@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adorigo <adorigo@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/05/11 10:17:25 by adorigo           #+#    #+#             */
-/*   Updated: 2020/12/03 23:34:31 by adorigo          ###   ########.fr       */
+/*   Created: 2020/12/08 14:58:07 by adorigo           #+#    #+#             */
+/*   Updated: 2020/12/08 14:59:09 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-t_context		*ft_get_context()
+t_context		*ft_get_context(void)
 {
 	static t_context context;
 
-	return(&context);
+	return (&context);
 }
 
-int				 ft_strlen(char const *str)
+int				ft_strlen(char const *str)
 {
 	int	i;
 
@@ -77,43 +77,4 @@ unsigned long	get_time(void)
 
 	gettimeofday(&tv, NULL);
 	return ((tv.tv_sec * (unsigned long)1000) + (tv.tv_usec / 1000));
-}
-
-void			ft_putchar_fd(char c, int fd)
-{
-	write(fd, &c, 1);
-}
-
-void			ft_putstr_fd(char *str, int fd)
-{
-	if (!str)
-		return ;
-	while (*str)
-	{
-		ft_putchar_fd(*str, fd);
-		str++;
-	}
-}
-
-size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
-{
-	size_t i;
-	size_t j;
-	size_t x;
-
-	i = 0;
-	j = 0;
-	x = 0;
-	while (dst[i] != 0)
-		i++;
-	while (src[j] != 0)
-		j++;
-	if (i < dstsize)
-		j = i + j;
-	else
-		j = j + dstsize;
-	while (src[x] != '\0' && i + 1 < dstsize)
-		dst[i++] = src[x++];
-	dst[i] = '\0';
-	return (j);
 }

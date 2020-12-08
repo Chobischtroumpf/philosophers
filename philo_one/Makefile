@@ -7,12 +7,16 @@ CFLAGS	= -Wall -Werror -Wextra
 LDFLAGS = -lpthread
 
 SRCDIR	= ./
-INCDIR	= include/
+INCDIR	= ./includes
 OBJDIR	= objs/
 
-CXXFLAGS	+= -I $(INCDIR)
+CXXFLAGS = -I $(INCDIR)
 
-SRCS	= 		main.c
+SRCS	= 		main.c			\
+				utils.c			\
+				philosophers.c	\
+				errors.c		\
+				print.c
 
 SRC		:= $(notdir $(SRCS)) # 					Files only
 OBJ		:= $(SRC:.c=.o)	#					Files only

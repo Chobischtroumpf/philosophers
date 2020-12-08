@@ -6,7 +6,7 @@
 /*   By: adorigo <adorigo@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/10 18:44:12 by adorigo           #+#    #+#             */
-/*   Updated: 2020/12/03 23:36:24 by adorigo          ###   ########.fr       */
+/*   Updated: 2020/12/07 18:18:08 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@
 
 typedef struct		s_philo
 {
-	unsigned long	name;
 	unsigned long	last_time_ate;
-	unsigned long	start;
 	unsigned long	eat_count;
+	unsigned long	start;
+	unsigned long	name;
 	int				is_dead;
 	pthread_t		thread;
 	pthread_t		thread_monitoring;
@@ -61,19 +61,19 @@ typedef enum		e_status
 	DEAD
 }					t_status;
 
-t_context 		*ft_get_context(void);
-void			ft_putstr_fd(char *str, int fd);
-void			ft_putnbr_fd(unsigned long n, int fd);
-unsigned long	get_time(void);
-int				ft_atoi(char const *str);
-int				ft_strlen(char const *str);
-size_t			ft_strlcat(char *dst, const char *src, size_t dstsize);
-int				format_error(char *arg, int ret);
-int				amount_arg_error(int ret);
-int				error_ret(char *str, int ret);
-int				ft_creating_philo(void);
-void			*ft_monitoring(void *vp);
-void			print(t_context *context, t_philo *philo, t_status s);
-
+t_context			*ft_get_context(void);
+void				ft_putstr_fd(char *str, int fd);
+void				ft_putnbr_fd(unsigned long n, int fd);
+unsigned long		get_time(void);
+int					ft_atoi(char const *str);
+int					ft_strlen(char const *str);
+size_t				ft_strlcat(char *dst, const char *src, size_t dstsize);
+int					format_error(char *arg, int ret);
+int					amount_arg_error(int ret);
+int					error_ret(char *str, int ret);
+int					ft_creating_philo(void);
+void				*ft_monitoring(void *vp);
+void				print(t_context *context, t_philo *philo, t_status s);
+int					ft_free_all(int ret);
 
 #endif
