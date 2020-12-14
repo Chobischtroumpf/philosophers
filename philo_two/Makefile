@@ -1,7 +1,7 @@
 
 # ================================ VARIABLES ================================= #
 
-NAME	= exec
+NAME	= philo_two
 CXX	= gcc
 CFLAGS	= -Wall -Werror -Wextra
 LDFLAGS = -lpthread
@@ -12,7 +12,12 @@ OBJDIR	= objs/
 
 CXXFLAGS	+= -I $(INCDIR)
 
-SRCS	= 		main.c
+SRCS	= 		main.c			\
+				philosophers.c	\
+				errors.c		\
+				utils.c			\
+				utils2.c		\
+				print.c
 
 SRC		:= $(notdir $(SRCS)) # 					Files only
 OBJ		:= $(SRC:.c=.o)	#					Files only

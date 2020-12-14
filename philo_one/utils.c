@@ -6,7 +6,7 @@
 /*   By: adorigo <adorigo@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/11 10:17:25 by adorigo           #+#    #+#             */
-/*   Updated: 2020/12/13 16:55:55 by adorigo          ###   ########.fr       */
+/*   Updated: 2020/12/13 16:41:01 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,25 @@ size_t			ft_strlcat(char *dst, const char *src, size_t dstsize)
 	return (j);
 }
 
+void			ft_free_mutex(t_context *cxt)
+{
+	pthread_mutex_lock(&cxt->alive);
+	pthread_mutex_unlock(&cxt->alive);
+	pthread_mutex_destroy(&cxt->alive);
+	pthread_mutex_lock(&cxt->someone_died);
+	pthread_mutex_unlock(&cxt->someone_died);
+	pthread_mutex_destroy(&cxt->someone_died);
+	pthread_mutex_lock(&cxt->pickup);
+	pthread_mutex_unlock(&cxt->pickup);
+	pthread_mutex_destroy(&cxt->pickup);
+	pthread_mutex_lock(&cxt->dropping);
+	pthread_mutex_unlock(&cxt->dropping);
+	pthread_mutex_destroy(&cxt->dropping);
+	pthread_mutex_lock(&cxt->print);
+	pthread_mutex_unlock(&cxt->print);
+	pthread_mutex_destroy(&cxt->print);
+}
+
 int				ft_free_all(int ret)
 {
 	t_context	*cxt;
@@ -54,21 +73,21 @@ int				ft_free_all(int ret)
 
 	i = -1;
 	cxt = ft_get_context();
+	ft_free_mutex(cxt);
 	while (++i < cxt->num_philo)
 	{
-		sem_close(cxt->eating[i]);
+		pthread_mutex_lock(&cxt->forks[i]);
+		pthread_mutex_unlock(&cxt->forks[i]);
+		pthread_mutex_destroy(&cxt->forks[i]);
+		pthread_mutex_lock(&cxt->eating[i]);
+		pthread_mutex_unlock(&cxt->eating[i]);
+		pthread_mutex_destroy(&cxt->eating[i]);
 		if (pthread_join(cxt->philosophers[i].thread, NULL))
 			return (error_ret("Error: failed to detach thread 'philo'\n", 0));
 		if (pthread_join(cxt->philosophers[i].thread_monitoring, NULL))
 			return (error_ret("Error: failed to detach thread 'mphilo'\n", 0));
 	}
-	sem_close(cxt->pickup);
-	sem_close(cxt->dropping);
-	sem_close(cxt->forks);
-	sem_close(cxt->alive);
-	sem_close(cxt->print);
-	sem_close(cxt->someone_died);
-	init_semlink();
+	free(cxt->forks);
 	free(cxt->eating);
 	free(cxt->philosophers);
 	return (ret);

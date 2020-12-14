@@ -14,6 +14,7 @@ CXXFLAGS = -I $(INCDIR)
 
 SRCS	= 		main.c			\
 				utils.c			\
+				utils2.c		\
 				philosophers.c	\
 				errors.c		\
 				print.c

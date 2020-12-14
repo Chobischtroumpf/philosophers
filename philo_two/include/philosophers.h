@@ -6,7 +6,7 @@
 /*   By: adorigo <adorigo@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/10 18:44:12 by adorigo           #+#    #+#             */
-/*   Updated: 2020/12/08 16:10:39 by adorigo          ###   ########.fr       */
+/*   Updated: 2020/12/13 16:55:29 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <pthread.h>
+# include <fcntl.h>
 # include <sys/time.h>
 # include <string.h>
 # include <stdio.h>
@@ -44,13 +45,13 @@ typedef struct		s_context
 	unsigned long	philo_alive;
 	unsigned long	philo_dead;
 	t_philo			*philosophers;
-	set_t			*forks;
-	set_t			*eating;
-	set_t			print;
-	set_t			alive;
-	set_t			someone_died;
-	set_t			pickup;
-	set_t			dropping;
+	sem_t			*forks;
+	sem_t			**eating;
+	sem_t			*pickup;
+	sem_t			*dropping;
+	sem_t			*print;
+	sem_t			*alive;
+	sem_t			*someone_died;
 }					t_context;
 
 typedef enum		e_status
@@ -76,5 +77,8 @@ int					ft_creating_philo(void);
 void				*ft_monitoring(void *vp);
 void				print(t_context *context, t_philo *philo, t_status s);
 int					ft_free_all(int ret);
+void				semaphore_name(int i, char buff[]);
+void				init_semlink(void);
+void				*ft_memset(void *b, int c, size_t len);
 
 #endif
