@@ -24,27 +24,27 @@
 
 typedef struct		s_philo
 {
+	int				eat_count;
+	int				is_dead;
 	unsigned long	last_time_ate;
-	unsigned long	eat_count;
 	unsigned long	start;
 	unsigned long	name;
-	int				is_dead;
 	pthread_t		thread;
 	pthread_t		thread_monitoring;
 }					t_philo;
 
 typedef struct		s_context
 {
-	unsigned long	philo_dead;
-	unsigned long	num_philo;
-	unsigned long	time_to_die;
-	unsigned long	time_to_eat;
-	unsigned long	time_to_sleep;
-	unsigned long	must_eat_count;
-	unsigned long	philo_alive;
+	int				philo_dead;
+	int				num_philo;
+	int				time_to_die;
+	int				time_to_eat;
+	int				time_to_sleep;
+	int				must_eat_count;
+	int				philo_alive;
 	t_philo			*philosophers;
 	pthread_mutex_t	*forks;
-	pthread_mutex_t *eating;
+	pthread_mutex_t	*eating;
 	pthread_mutex_t	print;
 	pthread_mutex_t	alive;
 	pthread_mutex_t	someone_died;

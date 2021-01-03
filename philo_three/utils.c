@@ -3,28 +3,42 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adorigo <adorigo@student.s19.be>           +#+  +:+       +#+        */
+/*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/11 10:17:25 by adorigo           #+#    #+#             */
-/*   Updated: 2020/12/13 16:55:55 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/01/03 17:31:19 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-void			ft_putchar_fd(char c, int fd)
+void	ft_putchar_fd(char c, int fd)
 {
 	write(fd, &c, 1);
 }
 
-void			ft_putstr_fd(char *str, int fd)
+void	*ft_memset(void *b, int c, size_t len)
+{
+	unsigned char	*ptr;
+	unsigned char	tmp_c;
+
+	if (b == 0)
+		return (0);
+	ptr = (unsigned char*)b;
+	tmp_c = (unsigned char)c;
+	while (len--)
+		*ptr++ = tmp_c;
+	return (b);
+}
+
+void	ft_putstr_fd(char *str, int fd)
 {
 	if (!str)
 		return ;
 	write(fd, str, ft_strlen(str));
 }
 
-size_t			ft_strlcat(char *dst, const char *src, size_t dstsize)
+size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
 {
 	size_t	i;
 	size_t	j;
@@ -47,29 +61,21 @@ size_t			ft_strlcat(char *dst, const char *src, size_t dstsize)
 	return (j);
 }
 
-int				ft_free_all(int ret)
+int		ft_free_all(int ret)
 {
 	t_context	*cxt;
-	int			i;
 
-	i = 0;
 	cxt = ft_get_context();
-	while (i < cxt->num_philo)
-	{
-		sem_close(cxt->eating[i]);
-		if (pthread_detach(cxt->philosophers[i].thread))
-			return (error_ret("Error: failed to detach thread 'philo'\n", 0));
-		if (pthread_detach(cxt->philosophers[i++].thread_monitoring))
-			return (error_ret("Error: failed to detach thread 'mphilo'\n", 0));
-	}
+	sem_post(cxt->eating);
+	sem_close(cxt->eating);
+	sem_post(cxt->pickup);
 	sem_close(cxt->pickup);
-	sem_close(cxt->dropping);
+	sem_post(cxt->forks);
 	sem_close(cxt->forks);
-	sem_close(cxt->alive);
+	sem_post(cxt->print);
 	sem_close(cxt->print);
-	sem_close(cxt->someone_died);
 	init_semlink();
-	free(cxt->eating);
 	free(cxt->philosophers);
+	free(cxt->pid);
 	return (ret);
 }

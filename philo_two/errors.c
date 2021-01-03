@@ -29,4 +29,5 @@ int	amount_arg_error(int ret)
 int	error_ret(char *str, int ret)
 {
 	ft_putstr_fd(str, 2);
+	return (ret);
 }

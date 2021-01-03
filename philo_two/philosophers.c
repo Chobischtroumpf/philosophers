@@ -20,11 +20,11 @@ static int	taking_fork_and_eating(t_context *cxt, t_philo *philo)
 	sem_wait(cxt->forks);
 	print(cxt, philo, TAKING_FORK);
 	sem_post(cxt->pickup);
+	print(cxt, philo, EATING);
 	sem_wait(cxt->eating[philo->name]);
 	philo->last_time_ate = get_time();
-	sem_post(cxt->eating[philo->name]);
-	print(cxt, philo, EATING);
 	usleep(cxt->time_to_eat * 1000);
+	sem_post(cxt->eating[philo->name]);
 	sem_wait(cxt->dropping);
 	sem_post(cxt->forks);
 	sem_post(cxt->forks);
@@ -78,7 +78,7 @@ void	*ft_monitoring(void *vp)
 			break ;
 		}
 		sem_post(context->eating[p->name]);
-		usleep(500);
+		usleep(100);
 	}
 	sem_post(context->eating[p->name]);
 	return (NULL);

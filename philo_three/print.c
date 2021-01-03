@@ -6,14 +6,13 @@
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/13 16:43:58 by adorigo           #+#    #+#             */
-/*   Updated: 2021/01/03 12:48:41 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/01/03 17:32:05 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-static void
-	num_to_str(char t[], unsigned long num, int idx)
+static void	num_to_str(char t[], unsigned long num, int idx)
 {
 	if (idx == 1)
 		t[idx - 1] = num + '0';
@@ -24,8 +23,7 @@ static void
 	}
 }
 
-static int
-	count_digit(unsigned long num)
+static int	count_digit(unsigned long num)
 {
 	int i;
 
@@ -40,8 +38,7 @@ static int
 	return (i);
 }
 
-static void
-	copy_to_buff(char *buff, unsigned long time, int index)
+static void	copy_to_buff(char *buff, unsigned long time, int index)
 {
 	int		digit;
 	char	t[20];
@@ -57,11 +54,12 @@ static void
 	ft_strlcat(buff, t, 50);
 }
 
-void
-	print(t_context *cxt, t_philo *p, t_status s)
+void		print(t_philo *p, t_status s, int is_dead)
 {
-	char	buff[100];
+	t_context	*cxt;
+	char		buff[100];
 
+	cxt = ft_get_context();
 	ft_memset(buff, 0, 100);
 	copy_to_buff(buff, get_time() - p->start, p->name);
 	if (s == THINKING)
@@ -76,6 +74,6 @@ void
 		ft_strlcat(buff, " died\n", 100);
 	sem_wait(cxt->print);
 	ft_putstr_fd(buff, 1);
-	if (!(p == DEAD))
+	if (!is_dead)
 		sem_post(cxt->print);
 }

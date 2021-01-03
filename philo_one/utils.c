@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adorigo <adorigo@student.s19.be>           +#+  +:+       +#+        */
+/*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/11 10:17:25 by adorigo           #+#    #+#             */
-/*   Updated: 2020/12/13 16:41:01 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/01/03 17:09:29 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,9 +83,9 @@ int				ft_free_all(int ret)
 		pthread_mutex_unlock(&cxt->eating[i]);
 		pthread_mutex_destroy(&cxt->eating[i]);
 		if (pthread_join(cxt->philosophers[i].thread, NULL))
-			return (error_ret("Error: failed to detach thread 'philo'\n", 0));
+			return (error_ret("Error: failed to join thread 'philo'\n", 0));
 		if (pthread_join(cxt->philosophers[i].thread_monitoring, NULL))
-			return (error_ret("Error: failed to detach thread 'mphilo'\n", 0));
+			return (error_ret("Error: failed to join thread 'mphilo'\n", 0));
 	}
 	free(cxt->forks);
 	free(cxt->eating);

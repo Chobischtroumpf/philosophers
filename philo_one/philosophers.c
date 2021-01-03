@@ -54,6 +54,7 @@ static void	*philosophing(void *vp)
 	pthread_mutex_lock(&context->alive);
 	context->philo_alive--;
 	pthread_mutex_unlock(&context->alive);
+	return (NULL);
 }
 
 static int	create_philos_odd(t_context *contxt)
