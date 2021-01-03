@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosophers.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adorigo <adorigo@student.s19.be>           +#+  +:+       +#+        */
+/*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/04 10:46:50 by adorigo           #+#    #+#             */
-/*   Updated: 2020/12/14 10:50:47 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/01/03 17:52:38 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,10 @@ static void	*philosophing(void *vp)
 	sem_wait(context->alive);
 	context->philo_alive--;
 	sem_post(context->alive);
-	return(philo);
+	return (philo);
 }
 
-void	*ft_monitoring(void *vp)
+void		*ft_monitoring(void *vp)
 {
 	t_context	*context;
 	t_philo		*p;
@@ -68,7 +68,7 @@ void	*ft_monitoring(void *vp)
 	{
 		sem_wait(context->eating[p->name]);
 		if (!context->philo_alive)
-			break;
+			break ;
 		if (get_time() - p->last_time_ate > (unsigned long)context->time_to_die)
 		{
 			print(context, p, DEAD);
@@ -84,7 +84,7 @@ void	*ft_monitoring(void *vp)
 	return (NULL);
 }
 
-void	semaphore_name(int i, char buff[])
+void		semaphore_name(int i, char buff[])
 {
 	int idx;
 

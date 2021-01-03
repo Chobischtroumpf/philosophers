@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adorigo <adorigo@student.s19.be>           +#+  +:+       +#+        */
+/*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/11 10:17:25 by adorigo           #+#    #+#             */
-/*   Updated: 2020/12/13 16:55:55 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/01/03 17:53:09 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,20 @@ void			ft_putstr_fd(char *str, int fd)
 	if (!str)
 		return ;
 	write(fd, str, ft_strlen(str));
+}
+
+void			*ft_memset(void *b, int c, size_t len)
+{
+	unsigned char	*ptr;
+	unsigned char	tmp_c;
+
+	if (b == 0)
+		return (0);
+	ptr = (unsigned char*)b;
+	tmp_c = (unsigned char)c;
+	while (len--)
+		*ptr++ = tmp_c;
+	return (b);
 }
 
 size_t			ft_strlcat(char *dst, const char *src, size_t dstsize)

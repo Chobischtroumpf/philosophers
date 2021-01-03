@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adorigo <adorigo@student.s19.be>           +#+  +:+       +#+        */
+/*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 14:58:07 by adorigo           #+#    #+#             */
-/*   Updated: 2020/12/13 16:50:43 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/01/03 17:52:57 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,18 +75,4 @@ unsigned long	get_time(void)
 
 	gettimeofday(&tv, NULL);
 	return ((tv.tv_sec * (unsigned long)1000) + (tv.tv_usec / 1000));
-}
-
-void			*ft_memset(void *b, int c, size_t len)
-{
-	unsigned char	*ptr;
-	unsigned char	tmp_c;
-
-	if (b == 0)
-		return (0);
-	ptr = (unsigned char*)b;
-	tmp_c = (unsigned char)c;
-	while (len--)
-		*ptr++ = tmp_c;
-	return (b);
 }

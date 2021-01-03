@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adorigo <adorigo@student.s19.be>           +#+  +:+       +#+        */
+/*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/10 17:26:35 by adorigo           #+#    #+#             */
-/*   Updated: 2020/12/14 11:09:18 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/01/03 17:54:42 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-int		parse_input(int argc, char **argv)
+int			parse_input(int argc, char **argv)
 {
 	t_context *context;
 
@@ -33,8 +33,7 @@ int		parse_input(int argc, char **argv)
 	return (1);
 }
 
-static int
-	set_sem_eating(t_context *context)
+static int	set_sem_eating(t_context *context)
 {
 	int		i;
 	char	buff[14];
@@ -51,7 +50,7 @@ static int
 	return (1);
 }
 
-void	init_semlink(void)
+void		init_semlink(void)
 {
 	t_context	*context;
 	char		buff[14];
@@ -71,7 +70,7 @@ void	init_semlink(void)
 	sem_unlink("print");
 }
 
-int		init_context(void)
+int			init_context(void)
 {
 	t_context	*cxt;
 
@@ -85,7 +84,7 @@ int		init_context(void)
 		return (error_ret("ERROR: failed to open 'dropping'\n", 0));
 	if (!(cxt->forks = sem_open("forks", O_CREAT, 0777, cxt->num_philo)))
 		return (error_ret("ERROR: failed to open 'forks'\n", 0));
-	if (!(cxt->alive= sem_open("alive", O_CREAT, 0777, 1)))
+	if (!(cxt->alive = sem_open("alive", O_CREAT, 0777, 1)))
 		return (error_ret("ERROR: failed to open 'alive'\n", 0));
 	if (!(cxt->print = sem_open("print", O_CREAT, 0777, 1)))
 		return (error_ret("ERROR: failed to open 'print'\n", 0));
@@ -94,7 +93,7 @@ int		init_context(void)
 	return (1);
 }
 
-int		main(int argc, char *argv[])
+int			main(int argc, char *argv[])
 {
 	t_context *context;
 

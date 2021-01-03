@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosophers.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adorigo <adorigo@student.s19.be>           +#+  +:+       +#+        */
+/*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/10 18:44:12 by adorigo           #+#    #+#             */
-/*   Updated: 2020/12/13 16:55:29 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/01/03 17:50:21 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@
 # include <string.h>
 # include <stdio.h>
 # include <semaphore.h>
-
 
 # define NUM_THREADS	8
 
