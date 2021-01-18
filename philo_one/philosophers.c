@@ -6,7 +6,7 @@
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/04 10:46:50 by adorigo           #+#    #+#             */
-/*   Updated: 2021/01/18 13:51:02 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/01/18 16:27:04 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	taking_fork_and_eating(t_context *cxt, t_philo *philo)
 	philo->last_time_ate = get_time();
 	pthread_mutex_unlock(&cxt->eating[philo->name]);
 	print(cxt, philo, EATING);
-	usleep(cxt->time_to_eat * 1000);
+	ft_usleep(cxt->time_to_eat);
 	pthread_mutex_unlock(&cxt->forks[philo->name]);
 	pthread_mutex_unlock(&cxt->forks[(philo->name + 1) % cxt->num_philo]);
 	if (cxt->must_eat_count > 0 && ++philo->eat_count == cxt->must_eat_count)
@@ -45,7 +45,7 @@ static void	*philosophing(void *vp)
 		if (!(taking_fork_and_eating(context, philo)))
 			break ;
 		print(context, philo, SLEEPING);
-		usleep(context->time_to_sleep * 1000);
+		ft_usleep(context->time_to_sleep);
 	}
 	pthread_mutex_lock(&context->alive);
 	context->philo_alive--;

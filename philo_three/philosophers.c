@@ -6,7 +6,7 @@
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/04 10:46:50 by adorigo           #+#    #+#             */
-/*   Updated: 2021/01/03 17:31:47 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/01/18 16:42:16 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	taking_fork_and_eating(t_context *cxt, t_philo *philo)
 	sem_wait(cxt->eating);
 	philo->last_time_ate = get_time();
 	sem_post(cxt->eating);
-	usleep(cxt->time_to_eat * 1000);
+	ft_usleep(cxt->time_to_eat);
 	sem_post(cxt->forks);
 	sem_post(cxt->forks);
 	if (cxt->must_eat_count && ++philo->eat_count == cxt->must_eat_count)
@@ -48,16 +48,13 @@ void		*ft_monitoring(void *vp)
 			exit(PHILO_DEAD);
 		}
 		sem_post(contxt->eating);
-		usleep(1000);
+		usleep(1);
 	}
 	return (vp);
 }
 
 static void	create_monitor_thread(t_philo *philo)
 {
-	t_context	*context;
-
-	context = ft_get_context();
 	if (pthread_create(&philo->thread_monitoring, NULL, &ft_monitoring, philo))
 		exit(error_ret("Error: failed to create thread 'monitor'\n", 1));
 	if (pthread_detach(philo->thread_monitoring))
@@ -80,7 +77,7 @@ static void	philosophing(void *vp)
 		if (!(taking_fork_and_eating(context, philo)))
 			exit(PHILO_ATE_ENOUGH);
 		print(philo, SLEEPING, NO_EXIT);
-		usleep(context->time_to_sleep * 1000);
+		usleep(context->time_to_sleep);
 	}
 	exit(0);
 }

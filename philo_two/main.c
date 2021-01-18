@@ -6,7 +6,7 @@
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/10 17:26:35 by adorigo           #+#    #+#             */
-/*   Updated: 2021/01/03 17:54:42 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/01/18 16:42:27 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ int			main(int argc, char *argv[])
 		sem_post(context->alive);
 		if (context->philo_dead)
 			break ;
-		usleep(1000);
+		ft_usleep(1);
 	}
 	if (!context->philo_dead)
 		ft_putstr_fd("All philosophers ate enough :)\n", 1);

@@ -6,7 +6,7 @@
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/03 22:17:02 by adorigo           #+#    #+#             */
-/*   Updated: 2021/01/18 16:09:46 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/01/18 16:17:20 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void		print(t_context *context, t_philo *philo, t_status s)
 	}
 	ft_put_time(philo);
 	write(1, " ", 1);
-	ft_putunbr(philo->name);
+	ft_putunbr(philo->name + 1);
 	if (s == THINKING)
 		ft_putstr_fd(" is thinking\n", 1);
 	else if (s == EATING)

@@ -6,7 +6,7 @@
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/10 18:44:12 by adorigo           #+#    #+#             */
-/*   Updated: 2021/01/03 17:01:17 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/01/18 16:34:38 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,5 +79,6 @@ void				print(t_philo *philo, t_status s, int is_dead);
 int					ft_free_all(int ret);
 void				init_semlink(void);
 void				*ft_memset(void *b, int c, size_t len);
+void				ft_usleep(unsigned long sleep_time);
 
 #endif
