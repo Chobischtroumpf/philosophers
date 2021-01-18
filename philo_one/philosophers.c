@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosophers.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adorigo <adorigo@student.s19.be>           +#+  +:+       +#+        */
+/*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/04 10:46:50 by adorigo           #+#    #+#             */
-/*   Updated: 2020/12/08 12:32:58 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/01/18 13:30:02 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,13 @@ static int	create_philos_odd(t_context *contxt)
 		if (pthread_create(&contxt->philosophers[j].thread,
 				NULL, &philosophing, &contxt->philosophers[j]))
 			return (error_ret("Error: failed to create thread philo\n", 0));
+		if (pthread_detach(contxt->philosophers[j].thread))
+			return (error_ret("Error: failed to detach thread philo\n", 0));
 		if (pthread_create(&contxt->philosophers[j].thread_monitoring,
 				NULL, &ft_monitoring, &contxt->philosophers[j]))
 			return (error_ret("Error: failed to create thread monitor\n", 0));
+		if (pthread_detach(contxt->philosophers[j].thread_monitoring))
+			return (error_ret("Error: failed to detach thread monitor\n", 0));
 		usleep(20);
 		i++;
 	}
@@ -95,10 +99,14 @@ static int	create_philos_even(t_context *contxt)
 		contxt->philosophers[j].last_time_ate = contxt->philosophers[j].start;
 		if (pthread_create(&contxt->philosophers[j].thread,
 				NULL, &philosophing, &contxt->philosophers[j]))
-			return (error_ret("Error: failed to create thread'philo\n", 0));
+			return (error_ret("Error: failed to create thread philo\n", 0));
+		if (pthread_detach(contxt->philosophers[j].thread))
+			return (error_ret("Error: failed to detach thread philo\n", 0));
 		if (pthread_create(&contxt->philosophers[j].thread_monitoring,
 				NULL, &ft_monitoring, &contxt->philosophers[j]))
 			return (error_ret("Error: failed to create thread monitor\n", 0));
+		if (pthread_detach(contxt->philosophers[j].thread_monitoring))
+			return (error_ret("Error: failed to detach thread monitor\n", 0));
 		usleep(20);
 		i++;
 	}
