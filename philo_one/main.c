@@ -6,7 +6,7 @@
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/10 17:26:35 by adorigo           #+#    #+#             */
-/*   Updated: 2021/01/18 13:25:23 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/01/18 13:51:16 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,6 @@ int		init_context(int i)
 		ret = pthread_mutex_init(&cxt->forks[i], NULL);
 		ret = pthread_mutex_init(&cxt->eating[i], NULL);
 	}
-	ret = pthread_mutex_init(&cxt->pickup, NULL);
-	ret = pthread_mutex_init(&cxt->dropping, NULL);
 	ret = pthread_mutex_init(&cxt->alive, NULL);
 	ret = pthread_mutex_init(&cxt->print, NULL);
 	ret = pthread_mutex_init(&cxt->someone_died, NULL);
@@ -105,12 +103,6 @@ int		main(int argc, char *argv[])
 			break ;
 		usleep(1000);
 	}
-	if (!context->philo_dead)
-	{
-		pthread_mutex_lock(&context->print);
-		ft_putstr_fd("All philosophers ate enough :)\n", 1);
-		pthread_mutex_unlock(&context->print);
-	}
-	usleep((context->time_to_die + context->time_to_eat) * 1000);
+	// usleep((context->time_to_die + context->time_to_eat) * 1000);
 	return (ft_free_all(EXIT_SUCCESS));
 }

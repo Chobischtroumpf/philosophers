@@ -6,7 +6,7 @@
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/04 10:46:50 by adorigo           #+#    #+#             */
-/*   Updated: 2021/01/18 13:30:02 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/01/18 13:51:02 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,17 @@
 
 static int	taking_fork_and_eating(t_context *cxt, t_philo *philo)
 {
-	pthread_mutex_lock(&cxt->pickup);
 	pthread_mutex_lock(&cxt->forks[philo->name]);
 	print(cxt, philo, TAKING_FORK);
 	pthread_mutex_lock(&cxt->forks[(philo->name + 1) % cxt->num_philo]);
 	print(cxt, philo, TAKING_FORK);
-	pthread_mutex_unlock(&cxt->pickup);
 	pthread_mutex_lock(&cxt->eating[philo->name]);
 	philo->last_time_ate = get_time();
 	pthread_mutex_unlock(&cxt->eating[philo->name]);
 	print(cxt, philo, EATING);
 	usleep(cxt->time_to_eat * 1000);
-	pthread_mutex_lock(&cxt->dropping);
 	pthread_mutex_unlock(&cxt->forks[philo->name]);
 	pthread_mutex_unlock(&cxt->forks[(philo->name + 1) % cxt->num_philo]);
-	pthread_mutex_unlock(&cxt->dropping);
 	if (cxt->must_eat_count > 0 && ++philo->eat_count == cxt->must_eat_count)
 		return (0);
 	return (1);
