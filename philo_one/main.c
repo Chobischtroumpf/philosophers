@@ -6,7 +6,7 @@
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/10 17:26:35 by adorigo           #+#    #+#             */
-/*   Updated: 2021/01/03 17:49:34 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/01/18 13:22:28 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	*ft_monitoring(void *vp)
 			break ;
 		}
 		pthread_mutex_unlock(&contxt->eating[p->name]);
-		usleep(500);
+		usleep(2000);
 	}
 	pthread_mutex_unlock(&contxt->someone_died);
 	pthread_mutex_unlock(&contxt->eating[p->name]);
