@@ -6,7 +6,7 @@
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/11 10:17:25 by adorigo           #+#    #+#             */
-/*   Updated: 2021/01/18 16:24:43 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/01/18 16:49:15 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,11 @@ void			ft_putstr_fd(char *str, int fd)
 
 void			ft_usleep(unsigned long sleep_time)
 {
-	usleep(sleep_time * 100);
-	usleep(sleep_time * 100);
-	usleep(sleep_time * 100);
-	usleep(sleep_time * 100);
-	usleep(sleep_time * 100);
-	usleep(sleep_time * 100);
-	usleep(sleep_time * 100);
-	usleep(sleep_time * 100);
-	usleep(sleep_time * 100);
-	usleep(sleep_time * 100);
+	usleep(sleep_time * 200);
+	usleep(sleep_time * 200);
+	usleep(sleep_time * 200);
+	usleep(sleep_time * 200);
+	usleep(sleep_time * 200);
 }
 
 void			ft_free_mutex(t_context *cxt)
