@@ -6,7 +6,7 @@
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/10 17:26:35 by adorigo           #+#    #+#             */
-/*   Updated: 2021/01/19 11:03:16 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/01/19 13:00:50 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ int		init_context(int i)
 	}
 	ret = pthread_mutex_init(&cxt->alive, NULL);
 	ret = pthread_mutex_init(&cxt->print, NULL);
+	ret = pthread_mutex_init(&cxt->pickup, NULL);
+	ret = pthread_mutex_init(&cxt->dropping, NULL);
 	ret = pthread_mutex_init(&cxt->someone_died, NULL);
 	if (ret)
 		return (error_ret("failed to init one or several mutex\n", 0));
@@ -80,7 +82,7 @@ void	*ft_monitoring(void *vp)
 			break ;
 		}
 		pthread_mutex_unlock(&contxt->eating[p->name]);
-		ft_usleep(100);
+		ft_usleep(1);
 	}
 	pthread_mutex_unlock(&contxt->eating[p->name]);
 	return (NULL);
@@ -101,8 +103,7 @@ int		main(int argc, char *argv[])
 			break ;
 		if (context->philo_dead)
 			break ;
-		ft_usleep(1000);
+		ft_usleep(1);
 	}
-	// usleep((context->time_to_die + context->time_to_eat) * 1000);
 	return (ft_free_all(EXIT_SUCCESS));
 }

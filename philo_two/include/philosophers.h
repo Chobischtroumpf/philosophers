@@ -6,7 +6,7 @@
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/10 18:44:12 by adorigo           #+#    #+#             */
-/*   Updated: 2021/01/03 17:50:21 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/01/19 12:33:58 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,5 +79,6 @@ int					ft_free_all(int ret);
 void				semaphore_name(int i, char buff[]);
 void				init_semlink(void);
 void				*ft_memset(void *b, int c, size_t len);
+void				ft_usleep(unsigned long time_sleep);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/04 10:46:50 by adorigo           #+#    #+#             */
-/*   Updated: 2021/01/18 16:52:31 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/01/19 13:00:39 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void		*ft_monitoring(void *vp)
 			exit(PHILO_DEAD);
 		}
 		sem_post(contxt->eating);
-		usleep(1000);
+		ft_usleep(1);
 	}
 	return (vp);
 }

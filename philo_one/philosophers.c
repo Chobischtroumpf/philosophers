@@ -6,7 +6,7 @@
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/04 10:46:50 by adorigo           #+#    #+#             */
-/*   Updated: 2021/01/19 11:02:40 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/01/19 11:14:46 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,13 +68,9 @@ static int	create_philos_odd(t_context *contxt)
 		if (pthread_create(&contxt->philosophers[j].thread,
 				NULL, &philosophing, &contxt->philosophers[j]))
 			return (error_ret("Error: failed to create thread philo\n", 0));
-		if (pthread_detach(contxt->philosophers[j].thread))
-			return (error_ret("Error: failed to detach thread philo\n", 0));
 		if (pthread_create(&contxt->philosophers[j].thread_monitoring,
 				NULL, &ft_monitoring, &contxt->philosophers[j]))
 			return (error_ret("Error: failed to create thread monitor\n", 0));
-		if (pthread_detach(contxt->philosophers[j].thread_monitoring))
-			return (error_ret("Error: failed to detach thread monitor\n", 0));
 		usleep(20);
 		i++;
 	}

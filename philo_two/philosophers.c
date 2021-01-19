@@ -6,7 +6,7 @@
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/04 10:46:50 by adorigo           #+#    #+#             */
-/*   Updated: 2021/01/03 17:52:38 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/01/19 12:55:12 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static int	taking_fork_and_eating(t_context *cxt, t_philo *philo)
 	print(cxt, philo, EATING);
 	sem_wait(cxt->eating[philo->name]);
 	philo->last_time_ate = get_time();
-	usleep(cxt->time_to_eat * 1000);
+	ft_usleep(cxt->time_to_eat);
 	sem_post(cxt->eating[philo->name]);
 	sem_wait(cxt->dropping);
 	sem_post(cxt->forks);
@@ -49,7 +49,7 @@ static void	*philosophing(void *vp)
 		if (!(taking_fork_and_eating(context, philo)))
 			break ;
 		print(context, philo, SLEEPING);
-		usleep(context->time_to_sleep * 1000);
+		ft_usleep(context->time_to_sleep);
 	}
 	sem_wait(context->alive);
 	context->philo_alive--;
@@ -78,7 +78,7 @@ void		*ft_monitoring(void *vp)
 			break ;
 		}
 		sem_post(context->eating[p->name]);
-		usleep(100);
+		ft_usleep(1);
 	}
 	sem_post(context->eating[p->name]);
 	return (NULL);
@@ -88,7 +88,6 @@ void		semaphore_name(int i, char buff[])
 {
 	int idx;
 
-	ft_memset(buff, 0, 14);
 	buff[0] = 'e';
 	buff[1] = 'a';
 	buff[2] = 't';
@@ -98,6 +97,7 @@ void		semaphore_name(int i, char buff[])
 		buff[idx++] = i % 10;
 		i = i / 10;
 	}
+	buff[idx] = '\0';
 }
 
 int			ft_creating_philo(void)

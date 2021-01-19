@@ -6,7 +6,7 @@
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/10 18:44:12 by adorigo           #+#    #+#             */
-/*   Updated: 2021/01/18 16:28:00 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/01/19 11:13:45 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@ typedef struct		s_context
 	pthread_mutex_t	print;
 	pthread_mutex_t	alive;
 	pthread_mutex_t	someone_died;
-	// pthread_mutex_t pickup;
-	// pthread_mutex_t dropping;
+	pthread_mutex_t pickup;
+	pthread_mutex_t dropping;
 }					t_context;
 
 typedef enum		e_status

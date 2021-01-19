@@ -6,13 +6,13 @@
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/13 16:43:58 by adorigo           #+#    #+#             */
-/*   Updated: 2021/01/18 16:37:58 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/01/19 13:06:28 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-void	ft_putunbr(unsigned long n)
+static void	ft_putunbr(unsigned long n)
 {
 	if (n / 10)
 		ft_putunbr(n / 10);
@@ -20,12 +20,11 @@ void	ft_putunbr(unsigned long n)
 	write(1, &n, 1);
 }
 
-
-void	ft_put_time(t_philo *philo)
+static void	ft_put_time(t_philo *philo)
 {
 	unsigned long	current_time;
 
-	current_time =  get_time() - philo->start;
+	current_time = get_time() - philo->start;
 	ft_putunbr(current_time);
 }
 
