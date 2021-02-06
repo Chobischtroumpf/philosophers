@@ -6,7 +6,7 @@
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/10 18:44:12 by adorigo           #+#    #+#             */
-/*   Updated: 2021/01/19 12:33:58 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/02/06 01:19:41 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,20 +22,26 @@
 # include <stdio.h>
 # include <semaphore.h>
 
-# define NUM_THREADS	8
+# define SEM_EAT	"/eating"
+# define SEM_FORKS	"/forks"
+# define SEM_ALIVE	"/alive"
+# define SEM_BLOCK	"/block"
+# define SEM_DEAD	"/someone_died"
+# define SEM_PICKUP	"/pickup"
 
 typedef struct		s_philo
 {
 	int				eat_count;
 	unsigned long	name;
+	int				is_eating;
 	unsigned long	last_time_ate;
-	unsigned long	start;
 	pthread_t		thread;
 	pthread_t		thread_monitoring;
 }					t_philo;
 
 typedef struct		s_context
 {
+	unsigned long	start;
 	int				num_philo;
 	int				time_to_die;
 	int				time_to_eat;
@@ -44,11 +50,10 @@ typedef struct		s_context
 	int				philo_alive;
 	int				philo_dead;
 	t_philo			*philosophers;
-	sem_t			*forks;
-	sem_t			**eating;
 	sem_t			*pickup;
-	sem_t			*dropping;
-	sem_t			*print;
+	sem_t			*forks;
+	sem_t			*eating;
+	sem_t			*block;
 	sem_t			*alive;
 	sem_t			*someone_died;
 }					t_context;
@@ -72,12 +77,12 @@ size_t				ft_strlcat(char *dst, const char *src, size_t dstsize);
 int					format_error(char *arg, int ret);
 int					amount_arg_error(int ret);
 int					error_ret(char *str, int ret);
-int					ft_creating_philo(void);
+int					ft_creating_philo(t_context *context);
 void				*ft_monitoring(void *vp);
 void				print(t_context *context, t_philo *philo, t_status s);
 int					ft_free_all(int ret);
 void				semaphore_name(int i, char buff[]);
-void				init_semlink(void);
+int					init_semunlink(void);
 void				*ft_memset(void *b, int c, size_t len);
 void				ft_usleep(unsigned long time_sleep);
 

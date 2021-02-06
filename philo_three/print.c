@@ -6,7 +6,7 @@
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/13 16:43:58 by adorigo           #+#    #+#             */
-/*   Updated: 2021/01/19 13:06:28 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/02/05 00:38:28 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@ static void	ft_putunbr(unsigned long n)
 	write(1, &n, 1);
 }
 
-static void	ft_put_time(t_philo *philo)
+static void	ft_put_time(t_context *context)
 {
 	unsigned long	current_time;
 
-	current_time = get_time() - philo->start;
+	current_time = get_time() - context->start;
 	ft_putunbr(current_time);
 }
 
@@ -34,7 +34,7 @@ void		print(t_philo *p, t_status s, int is_dead)
 
 	cxt = ft_get_context();
 	sem_wait(cxt->print);
-	ft_put_time(p);
+	ft_put_time(cxt);
 	write(1, " ", 1);
 	ft_putunbr(p->name + 1);
 	if (s == THINKING)

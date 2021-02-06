@@ -6,7 +6,7 @@
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/10 18:44:12 by adorigo           #+#    #+#             */
-/*   Updated: 2021/01/19 11:13:45 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/02/04 23:08:05 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,11 @@
 # include <string.h>
 # include <stdio.h>
 
-# define NUM_THREADS	8
-
 typedef struct		s_philo
 {
 	int				eat_count;
 	int				is_dead;
 	unsigned long	last_time_ate;
-	unsigned long	start;
 	unsigned long	name;
 	pthread_t		thread;
 	pthread_t		thread_monitoring;
@@ -35,6 +32,7 @@ typedef struct		s_philo
 
 typedef struct		s_context
 {
+	unsigned long	start;
 	int				philo_dead;
 	int				num_philo;
 	int				time_to_die;
@@ -45,11 +43,10 @@ typedef struct		s_context
 	t_philo			*philosophers;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	*eating;
-	pthread_mutex_t	print;
 	pthread_mutex_t	alive;
 	pthread_mutex_t	someone_died;
-	pthread_mutex_t pickup;
-	pthread_mutex_t dropping;
+	pthread_mutex_t	print;
+	pthread_mutex_t	block;
 }					t_context;
 
 typedef enum		e_status

@@ -6,48 +6,80 @@
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/03 22:17:02 by adorigo           #+#    #+#             */
-/*   Updated: 2021/01/19 12:09:20 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/02/05 18:14:53 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-static void	ft_putunbr(unsigned long n)
+static void
+	num_to_str(char t[], unsigned long num, int idx)
 {
-	if (n / 10)
-		ft_putunbr(n / 10);
-	n = n % 10 + '0';
-	write(1, &n, 1);
-}
-
-static void	ft_put_time(t_philo *philo)
-{
-	unsigned long	current_time;
-
-	current_time = get_time() - philo->start;
-	ft_putunbr(current_time);
-}
-
-void		print(t_context *context, t_philo *philo, t_status s)
-{
-	pthread_mutex_lock(&context->print);
-	if (context->philo_dead)
+	if (idx == 1)
+		t[idx - 1] = num + '0';
+	else
 	{
-		pthread_mutex_unlock(&context->print);
-		return ;
+		num_to_str(t, num / 10, idx - 1);
+		t[idx - 1] = num % 10 + '0';
 	}
-	ft_put_time(philo);
-	write(1, " ", 1);
-	ft_putunbr(philo->name + 1);
+}
+
+static int
+	count_digit(unsigned long num)
+{
+	int i;
+
+	i = 0;
+	if (num == 0)
+		return (1);
+	while (num)
+	{
+		num = num / 10;
+		i++;
+	}
+	return (i);
+}
+
+static void
+	copy_to_buff(char *buff, unsigned long time, int index)
+{
+	int		digit;
+	size_t	size;
+	char	t[20];
+
+	size = 90;
+	memset(t, 0, 20);
+	digit = count_digit(time);
+	num_to_str(t, time, digit);
+	ft_strlcat(buff, t, size);
+	ft_strlcat(buff, " ", size);
+	memset(t, 0, 20);
+	digit = count_digit(index + 1);
+	num_to_str(t, index + 1, digit);
+	ft_strlcat(buff, t, size);
+}
+
+void
+	print(t_context *cxt, t_philo *p, t_status s)
+{
+	char		buff[100];
+
+	memset(buff, 0, 100);
+	copy_to_buff(buff, get_time() - cxt->start, p->name);
 	if (s == THINKING)
-		ft_putstr_fd(" is thinking\n", 1);
+		ft_strlcat(buff, " is thinking\n", 100);
 	else if (s == EATING)
-		ft_putstr_fd(" is eating\n", 1);
+		ft_strlcat(buff, " is eating\n", 100);
 	else if (s == SLEEPING)
-		ft_putstr_fd(" is sleeping\n", 1);
+		ft_strlcat(buff, " is sleeping\n", 100);
 	else if (s == TAKING_FORK)
-		ft_putstr_fd(" has taken a fork\n", 1);
+		ft_strlcat(buff, " has taken a fork\n", 100);
 	else if (s == DEAD)
-		ft_putstr_fd(" died\n", 1);
-	pthread_mutex_unlock(&context->print);
+		ft_strlcat(buff, " died\n", 100);
+	if (cxt->philo_dead)
+		return ;
+	pthread_mutex_lock(&cxt->block);
+	ft_putstr_fd(buff, 1);
+	if (!(s == DEAD))
+		pthread_mutex_unlock(&cxt->block);
 }

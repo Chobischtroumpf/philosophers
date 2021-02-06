@@ -6,7 +6,7 @@
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/04 10:46:50 by adorigo           #+#    #+#             */
-/*   Updated: 2021/01/19 13:00:39 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/02/05 16:07:09 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,11 @@
 
 static int	taking_fork_and_eating(t_context *cxt, t_philo *philo)
 {
-	sem_wait(cxt->pickup);
 	sem_wait(cxt->forks);
 	print(philo, TAKING_FORK, NO_EXIT);
 	sem_wait(cxt->forks);
 	print(philo, TAKING_FORK, NO_EXIT);
 	print(philo, EATING, NO_EXIT);
-	sem_post(cxt->pickup);
 	sem_wait(cxt->eating);
 	philo->last_time_ate = get_time();
 	sem_post(cxt->eating);
@@ -48,7 +46,7 @@ void		*ft_monitoring(void *vp)
 			exit(PHILO_DEAD);
 		}
 		sem_post(contxt->eating);
-		ft_usleep(1);
+		usleep(500);
 	}
 	return (vp);
 }
@@ -68,8 +66,7 @@ static void	philosophing(void *vp)
 
 	context = ft_get_context();
 	philo = vp;
-	philo->start = get_time();
-	philo->last_time_ate = philo->start;
+	philo->last_time_ate = context->start;
 	create_monitor_thread(philo);
 	while (1)
 	{
@@ -77,7 +74,7 @@ static void	philosophing(void *vp)
 		if (!(taking_fork_and_eating(context, philo)))
 			exit(PHILO_ATE_ENOUGH);
 		print(philo, SLEEPING, NO_EXIT);
-		usleep(context->time_to_sleep);
+		ft_usleep(context->time_to_sleep);
 	}
 	exit(0);
 }

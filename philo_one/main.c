@@ -6,7 +6,7 @@
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/10 17:26:35 by adorigo           #+#    #+#             */
-/*   Updated: 2021/01/19 13:00:50 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/02/05 17:17:05 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,11 @@ int		init_context(int i)
 		ret = pthread_mutex_init(&cxt->eating[i], NULL);
 	}
 	ret = pthread_mutex_init(&cxt->alive, NULL);
-	ret = pthread_mutex_init(&cxt->print, NULL);
-	ret = pthread_mutex_init(&cxt->pickup, NULL);
-	ret = pthread_mutex_init(&cxt->dropping, NULL);
+	ret = pthread_mutex_init(&cxt->block, NULL);
 	ret = pthread_mutex_init(&cxt->someone_died, NULL);
 	if (ret)
 		return (error_ret("failed to init one or several mutex\n", 0));
+	cxt->start = get_time();
 	return (1);
 }
 
@@ -66,8 +65,9 @@ void	*ft_monitoring(void *vp)
 	t_context	*contxt;
 	t_philo		*p;
 
+	(void)vp;
 	contxt = ft_get_context();
-	p = vp;
+	p = contxt->philosophers;
 	while (1)
 	{
 		pthread_mutex_lock(&contxt->eating[p->name]);
@@ -82,7 +82,7 @@ void	*ft_monitoring(void *vp)
 			break ;
 		}
 		pthread_mutex_unlock(&contxt->eating[p->name]);
-		ft_usleep(1);
+		usleep(200);
 	}
 	pthread_mutex_unlock(&contxt->eating[p->name]);
 	return (NULL);
@@ -90,20 +90,21 @@ void	*ft_monitoring(void *vp)
 
 int		main(int argc, char *argv[])
 {
-	t_context *context;
+	t_context *cxt;
 
-	context = ft_get_context();
+	cxt = ft_get_context();
 	if (!parse_input(argc, argv))
 		return (EXIT_FAILURE);
 	else if (init_context(-1) && ft_creating_philo())
 		return (ft_free_all(EXIT_FAILURE));
 	while (1)
 	{
-		if (context->philo_alive == 0)
+		if (cxt->philo_alive == 0)
 			break ;
-		if (context->philo_dead)
+		if (cxt->philo_dead)
 			break ;
 		ft_usleep(1);
 	}
+	ft_usleep(cxt->time_to_eat + cxt->time_to_die + cxt->time_to_sleep);
 	return (ft_free_all(EXIT_SUCCESS));
 }

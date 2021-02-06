@@ -6,29 +6,58 @@
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/11 10:17:25 by adorigo           #+#    #+#             */
-/*   Updated: 2021/01/19 11:14:32 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/02/04 23:57:17 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-void			ft_putstr_fd(char *str, int fd)
+void	ft_putstr_fd(char *str, int fd)
 {
 	if (!str)
 		return ;
 	write(fd, str, ft_strlen(str));
 }
 
-void			ft_usleep(unsigned long sleep_time)
+size_t	ft_strlcat(char *dst, const char *src, size_t size)
+{
+	char		*dest;
+	const char	*source;
+	size_t		i;
+	size_t		dlen;
+
+	dest = dst;
+	source = src;
+	i = size;
+	while (i-- != 0 && *dest)
+		dest++;
+	dlen = dest - dst;
+	i = size - dlen;
+	if (i == 0)
+		return (dlen + ft_strlen(source));
+	while (*source)
+	{
+		if (i != 1)
+		{
+			*dest++ = *source;
+			i--;
+		}
+		source++;
+	}
+	*dest = '\0';
+	return (dlen + (source - src));
+}
+
+void	ft_usleep(unsigned long sleep_time)
 {
 	unsigned long end;
 
 	end = get_time() + sleep_time;
 	while (get_time() < end)
-		usleep(400);
+		usleep(100);
 }
 
-void			ft_free_mutex(t_context *cxt)
+void	ft_free_mutex(t_context *cxt)
 {
 	pthread_mutex_lock(&cxt->alive);
 	pthread_mutex_unlock(&cxt->alive);
@@ -36,18 +65,18 @@ void			ft_free_mutex(t_context *cxt)
 	pthread_mutex_lock(&cxt->someone_died);
 	pthread_mutex_unlock(&cxt->someone_died);
 	pthread_mutex_destroy(&cxt->someone_died);
-	pthread_mutex_lock(&cxt->pickup);
-	pthread_mutex_unlock(&cxt->pickup);
-	pthread_mutex_destroy(&cxt->pickup);
-	pthread_mutex_lock(&cxt->dropping);
-	pthread_mutex_unlock(&cxt->dropping);
-	pthread_mutex_destroy(&cxt->dropping);
-	pthread_mutex_lock(&cxt->print);
+	if (!cxt->philo_dead)
+	{
+		pthread_mutex_lock(&cxt->block);
+		pthread_mutex_lock(&cxt->print);
+	}
+	pthread_mutex_unlock(&cxt->block);
+	pthread_mutex_destroy(&cxt->block);
 	pthread_mutex_unlock(&cxt->print);
 	pthread_mutex_destroy(&cxt->print);
 }
 
-int				ft_free_all(int ret)
+int		ft_free_all(int ret)
 {
 	t_context	*cxt;
 	int			i;
@@ -63,10 +92,6 @@ int				ft_free_all(int ret)
 		pthread_mutex_lock(&cxt->eating[i]);
 		pthread_mutex_unlock(&cxt->eating[i]);
 		pthread_mutex_destroy(&cxt->eating[i]);
-		if (pthread_join(cxt->philosophers[i].thread, NULL))
-			return (error_ret("Error: failed to join thread 'philo'\n", 0));
-		if (pthread_join(cxt->philosophers[i].thread_monitoring, NULL))
-			return (error_ret("Error: failed to join thread 'mphilo'\n", 0));
 	}
 	free(cxt->forks);
 	free(cxt->eating);

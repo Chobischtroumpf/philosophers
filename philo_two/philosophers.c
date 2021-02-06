@@ -6,7 +6,7 @@
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/04 10:46:50 by adorigo           #+#    #+#             */
-/*   Updated: 2021/01/19 12:55:12 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/02/06 01:23:23 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,17 @@ static int	taking_fork_and_eating(t_context *cxt, t_philo *philo)
 	sem_wait(cxt->forks);
 	print(cxt, philo, TAKING_FORK);
 	sem_post(cxt->pickup);
+	philo->is_eating = 1;
+	sem_wait(cxt->eating);
 	print(cxt, philo, EATING);
-	sem_wait(cxt->eating[philo->name]);
 	philo->last_time_ate = get_time();
+	sem_post(cxt->eating);
+	philo->is_eating = 0;
 	ft_usleep(cxt->time_to_eat);
-	sem_post(cxt->eating[philo->name]);
-	sem_wait(cxt->dropping);
 	sem_post(cxt->forks);
 	sem_post(cxt->forks);
-	sem_post(cxt->dropping);
-	if (cxt->must_eat_count && ++philo->eat_count == cxt->must_eat_count)
+	if ((cxt->must_eat_count && ++philo->eat_count == cxt->must_eat_count) || 
+		cxt->philo_dead)
 		return (0);
 	return (1);
 }
@@ -47,6 +48,8 @@ static void	*philosophing(void *vp)
 			break ;
 		print(context, philo, THINKING);
 		if (!(taking_fork_and_eating(context, philo)))
+			break ;
+		if (context->philo_dead)
 			break ;
 		print(context, philo, SLEEPING);
 		ft_usleep(context->time_to_sleep);
@@ -66,61 +69,47 @@ void		*ft_monitoring(void *vp)
 	p = vp;
 	while (1)
 	{
-		sem_wait(context->eating[p->name]);
-		if (!context->philo_alive)
-			break ;
-		if (get_time() - p->last_time_ate > (unsigned long)context->time_to_die)
+		if (!p->is_eating)
 		{
-			print(context, p, DEAD);
-			sem_wait(context->someone_died);
-			context->philo_dead = 1;
-			sem_post(context->someone_died);
-			break ;
+			if (!context->philo_alive)
+				break ;
+			if (get_time() - p->last_time_ate > (unsigned long)context->time_to_die)
+			{
+				print(context, p, DEAD);
+				sem_wait(context->someone_died);
+				context->philo_dead = 1;
+				sem_post(context->someone_died);
+				break ;
+			}
 		}
-		sem_post(context->eating[p->name]);
-		ft_usleep(1);
+		usleep(500);
 	}
-	sem_post(context->eating[p->name]);
-	return (NULL);
+	return (vp);
 }
 
-void		semaphore_name(int i, char buff[])
+int			ft_creating_philo(t_context *context)
 {
-	int idx;
-
-	buff[0] = 'e';
-	buff[1] = 'a';
-	buff[2] = 't';
-	idx = 3;
-	while (i > 0)
-	{
-		buff[idx++] = i % 10;
-		i = i / 10;
-	}
-	buff[idx] = '\0';
-}
-
-int			ft_creating_philo(void)
-{
-	t_context	*context;
-	int			i;
+	int	i;
 
 	i = 0;
-	context = ft_get_context();
 	if (!(context->philosophers = malloc(sizeof(t_philo) * context->num_philo)))
 		return (error_ret("Error: failed to malloc pthread_t 'philo'\n", 0));
 	while (i < context->num_philo)
 	{
 		context->philosophers[i].name = i;
 		context->philosophers[i].eat_count = 0;
-		context->philosophers[i].start = get_time();
-		context->philosophers[i].last_time_ate = context->philosophers[i].start;
+		context->philosophers[i].last_time_ate = context->start;
+		context->philosophers[i].is_eating = 0;
 		if (pthread_create(&context->philosophers[i].thread,
 				NULL, &philosophing, &context->philosophers[i]))
-			return (error_ret("Error: failed to create thread'philo\n", 0));
+			return (error_ret("Error: failed to create thread philo\n", 0));
+		if (pthread_detach(context->philosophers[i].thread))
+			return (error_ret("Error: failed to detach thread philo\n", 0));
 		if (pthread_create(&context->philosophers[i].thread_monitoring,
 				NULL, &ft_monitoring, &context->philosophers[i]))
 			return (error_ret("Error: failed to create thread monitor\n", 0));
+		if (pthread_detach(context->philosophers[i].thread_monitoring))
+			return (error_ret("Error: failed to detach thread monitor\n", 0));
 		usleep(20);
 		i++;
 	}

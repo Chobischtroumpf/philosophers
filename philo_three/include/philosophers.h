@@ -6,7 +6,7 @@
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/10 18:44:12 by adorigo           #+#    #+#             */
-/*   Updated: 2021/01/18 16:34:38 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/02/04 21:58:24 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@
 typedef struct		s_philo
 {
 	unsigned long	name;
-	unsigned long	start;
 	int				eat_count;
 	unsigned long	last_time_ate;
 	pthread_t		thread_monitoring;
@@ -41,6 +40,7 @@ typedef struct		s_philo
 
 typedef struct		s_context
 {
+	unsigned long	start;
 	int				num_philo;
 	int				time_to_die;
 	int				time_to_eat;
@@ -48,7 +48,6 @@ typedef struct		s_context
 	int				must_eat_count;
 	int				*pid;
 	t_philo			*philosophers;
-	sem_t			*pickup;
 	sem_t			*forks;
 	sem_t			*eating;
 	sem_t			*print;

@@ -6,7 +6,7 @@
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/04 10:46:50 by adorigo           #+#    #+#             */
-/*   Updated: 2021/01/19 11:14:46 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/02/04 23:56:56 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,11 @@ static int	taking_fork_and_eating(t_context *cxt, t_philo *philo)
 	print(cxt, philo, TAKING_FORK);
 	pthread_mutex_lock(&cxt->forks[(philo->name + 1) % cxt->num_philo]);
 	print(cxt, philo, TAKING_FORK);
+	print(cxt, philo, EATING);
 	pthread_mutex_lock(&cxt->eating[philo->name]);
 	philo->last_time_ate = get_time();
-	pthread_mutex_unlock(&cxt->eating[philo->name]);
-	print(cxt, philo, EATING);
 	ft_usleep(cxt->time_to_eat);
+	pthread_mutex_unlock(&cxt->eating[philo->name]);
 	pthread_mutex_unlock(&cxt->forks[philo->name]);
 	pthread_mutex_unlock(&cxt->forks[(philo->name + 1) % cxt->num_philo]);
 	if (cxt->must_eat_count > 0 && ++philo->eat_count == cxt->must_eat_count)
@@ -47,9 +47,9 @@ static void	*philosophing(void *vp)
 		print(context, philo, SLEEPING);
 		ft_usleep(context->time_to_sleep);
 	}
-	pthread_mutex_lock(&context->alive);
+	pthread_mutex_lock(&context->block);
 	context->philo_alive--;
-	pthread_mutex_unlock(&context->alive);
+	pthread_mutex_unlock(&context->block);
 	return (NULL);
 }
 
@@ -63,14 +63,17 @@ static int	create_philos_odd(t_context *contxt)
 	{
 		contxt->philosophers[j].name = j;
 		contxt->philosophers[j].eat_count = 0;
-		contxt->philosophers[j].start = get_time();
-		contxt->philosophers[j].last_time_ate = contxt->philosophers[j].start;
+		contxt->philosophers[j].last_time_ate = contxt->start;
 		if (pthread_create(&contxt->philosophers[j].thread,
 				NULL, &philosophing, &contxt->philosophers[j]))
 			return (error_ret("Error: failed to create thread philo\n", 0));
+		if (pthread_detach(contxt->philosophers[j].thread))
+			return (error_ret("Error: failed to detach thread philo\n", 0));
 		if (pthread_create(&contxt->philosophers[j].thread_monitoring,
 				NULL, &ft_monitoring, &contxt->philosophers[j]))
 			return (error_ret("Error: failed to create thread monitor\n", 0));
+		if (pthread_detach(contxt->philosophers[j].thread_monitoring))
+			return (error_ret("Error: failed to detach thread monitor\n", 0));
 		usleep(20);
 		i++;
 	}
@@ -87,8 +90,7 @@ static int	create_philos_even(t_context *contxt)
 	{
 		contxt->philosophers[j].name = j;
 		contxt->philosophers[j].eat_count = 0;
-		contxt->philosophers[j].start = get_time();
-		contxt->philosophers[j].last_time_ate = contxt->philosophers[j].start;
+		contxt->philosophers[j].last_time_ate = contxt->start;
 		if (pthread_create(&contxt->philosophers[j].thread,
 				NULL, &philosophing, &contxt->philosophers[j]))
 			return (error_ret("Error: failed to create thread philo\n", 0));

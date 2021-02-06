@@ -3,14 +3,14 @@
 
 NAME	= philo_one
 C	= clang
-CFLAGS	= -Wall -Werror -Wextra
+CXXFLAGS	= -Wall -Werror -Wextra
 LDFLAGS = -lpthread
 
 SRCDIR	= ./
 INCDIR	= ./includes
 OBJDIR	= objs/
 
-CFLAGS = -I $(INCDIR)
+CXXFLAGS = -I $(INCDIR)
 
 SRCS	= 		main.c			\
 				utils.c			\
@@ -37,13 +37,13 @@ all : $(NAME)
 #	linking
 $(NAME)	: $(OBJS)
 	@printf "$(YE)&&& Linking $(OBJ) to $(NAME)$(RC)"
-	$(C) $(LDFLAGS) $(CFLAGS) -o $(NAME) $(OBJS)
+	$(C) $(LDFLAGS) $(CXXFLAGS) -o $(NAME) $(OBJS)
 
 #	compiling
 $(OBJS) : $(SRCS)
 	@printf "$(GR)+++ Compiling $(SRC) to $(OBJ)$(RC)"
 	@mkdir -p $(OBJDIR)
-	@cd $(OBJDIR) && $(C) $(CFLAGS) -I ../$(INCDIR) -c $(CSRCS)
+	@cd $(OBJDIR) && $(C) $(CXXFLAGS) -I ../$(INCDIR) -c $(CSRCS)
 
 #	runnng
 
@@ -67,6 +67,6 @@ debug :
 	@echo "OBJS $(OBJS)"
 	@echo "OBJ $(OBJ)"
 	@echo "CSRCS $(CSRCS)"
-	@echo "CFLAGS $(CFLAGS)"
+	@echo "CXXFLAGS $(CXXFLAGS)"
 
 .PHONY	= all run clean fclean re debug

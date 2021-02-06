@@ -6,7 +6,7 @@
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/11 10:17:25 by adorigo           #+#    #+#             */
-/*   Updated: 2021/01/19 13:06:14 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/02/04 22:01:54 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	ft_usleep(unsigned long sleep_time)
 
 	end = get_time() + sleep_time;
 	while (get_time() < end)
-		usleep(400);
+		usleep(100);
 }
 
 void	ft_putstr_fd(char *str, int fd)
@@ -35,8 +35,6 @@ int		ft_free_all(int ret)
 	cxt = ft_get_context();
 	sem_post(cxt->eating);
 	sem_close(cxt->eating);
-	sem_post(cxt->pickup);
-	sem_close(cxt->pickup);
 	sem_post(cxt->forks);
 	sem_close(cxt->forks);
 	sem_post(cxt->print);

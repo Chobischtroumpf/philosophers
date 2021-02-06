@@ -6,7 +6,7 @@
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/10 17:26:35 by adorigo           #+#    #+#             */
-/*   Updated: 2021/01/03 17:28:11 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/02/04 22:01:43 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ int			parse_input(int argc, char **argv)
 
 void		init_semlink(void)
 {
-	sem_unlink("pickup");
 	sem_unlink("forks");
 	sem_unlink("eat");
 	sem_unlink("print");
@@ -48,14 +47,13 @@ int			init_context(void)
 	cxt = ft_get_context();
 	if (!(cxt->pid = malloc(sizeof(int) * cxt->num_philo)))
 		return (error_ret("ERROR: failed to malloc\n", 0));
-	if (!(cxt->pickup = sem_open("pickup", O_CREAT, 0777, 1)))
-		return (error_ret("ERROR: failed to open 'pickup'\n", 0));
 	if (!(cxt->forks = sem_open("forks", O_CREAT, 0777, cxt->num_philo)))
 		return (error_ret("ERROR: failed to open 'forks'\n", 0));
 	if (!(cxt->print = sem_open("print", O_CREAT, 0777, 1)))
 		return (error_ret("ERROR: failed to open 'print'\n", 0));
 	if (!(cxt->eating = sem_open("eat", O_CREAT, 0777, 1)))
 		return (error_ret("ERROR: failed to open 'eat'\n", 0));
+	cxt->start = get_time();
 	return (1);
 }
 
