@@ -6,7 +6,7 @@
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/11 10:17:25 by adorigo           #+#    #+#             */
-/*   Updated: 2021/02/06 01:23:55 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/02/06 02:04:02 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int				ft_free_all(int ret)
 	t_context	*cxt;
 
 	cxt = ft_get_context();
+	sem_wait(cxt->eating);
 	sem_close(cxt->eating);
 	sem_close(cxt->forks);
 	sem_close(cxt->alive);

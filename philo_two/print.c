@@ -6,7 +6,7 @@
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/13 16:43:58 by adorigo           #+#    #+#             */
-/*   Updated: 2021/02/06 01:47:27 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/02/06 01:18:38 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,7 @@ void		print(t_context *cxt, t_philo *philo, t_status s)
 		return ;
 	sem_wait(cxt->block);
 	if (cxt->philo_dead)
-	{
-		sem_post(cxt->block);
 		return ;
-	}
 	ft_put_time(cxt);
 	write(1, " ", 1);
 	ft_putunbr(philo->name + 1);
