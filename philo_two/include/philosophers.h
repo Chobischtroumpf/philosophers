@@ -6,7 +6,7 @@
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/10 18:44:12 by adorigo           #+#    #+#             */
-/*   Updated: 2021/02/06 01:19:41 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/02/06 12:30:36 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <string.h>
 # include <stdio.h>
 # include <semaphore.h>
+# include <limits.h>
 
 # define SEM_EAT	"/eating"
 # define SEM_FORKS	"/forks"
@@ -31,7 +32,7 @@
 
 typedef struct		s_philo
 {
-	int				eat_count;
+	unsigned long	eat_count;
 	unsigned long	name;
 	int				is_eating;
 	unsigned long	last_time_ate;
@@ -42,11 +43,11 @@ typedef struct		s_philo
 typedef struct		s_context
 {
 	unsigned long	start;
+	unsigned long	must_eat_count;
 	int				num_philo;
 	int				time_to_die;
 	int				time_to_eat;
 	int				time_to_sleep;
-	int				must_eat_count;
 	int				philo_alive;
 	int				philo_dead;
 	t_philo			*philosophers;

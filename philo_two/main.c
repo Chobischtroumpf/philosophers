@@ -6,7 +6,7 @@
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/10 17:26:35 by adorigo           #+#    #+#             */
-/*   Updated: 2021/02/06 01:22:37 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/02/08 13:33:59 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int			parse_input(int argc, char **argv)
 	if ((context->time_to_sleep = ft_atoi(argv[4])) <= 0)
 		return (format_error("time_to_sleep", 0));
 	if (argc == 6)
-		if ((context->must_eat_count = ft_atoi(argv[5])) < 0)
+		if ((context->must_eat_count = ft_atoi(argv[5])) <= 0)
 			return (format_error("num_must_eat", 0));
 	return (1);
 }
@@ -84,6 +84,6 @@ int			main(int argc, char *argv[])
 			break ;
 		ft_usleep(1);
 	}
-	usleep(10000000);
+	usleep((cxt->time_to_die+cxt->time_to_eat+cxt->time_to_sleep)*900);
 	return (ft_free_all(EXIT_SUCCESS));
 }

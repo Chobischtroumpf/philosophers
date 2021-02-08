@@ -6,7 +6,7 @@
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/04 10:46:50 by adorigo           #+#    #+#             */
-/*   Updated: 2021/02/06 12:03:40 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/02/06 12:32:08 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 static int	taking_fork_and_eating(t_context *cxt, t_philo *philo)
 {
+	if (cxt->philo_dead)
+		return (0);
 	sem_wait(cxt->pickup);
 	sem_wait(cxt->forks);
 	print(cxt, philo, TAKING_FORK);
@@ -22,13 +24,13 @@ static int	taking_fork_and_eating(t_context *cxt, t_philo *philo)
 	sem_post(cxt->pickup);
 	philo->is_eating = 1;
 	print(cxt, philo, EATING);
+	philo->eat_count++;
 	philo->last_time_ate = get_time();
 	ft_usleep(cxt->time_to_eat);
 	philo->is_eating = 0;
 	sem_post(cxt->forks);
 	sem_post(cxt->forks);
-	if ((cxt->must_eat_count && ++philo->eat_count == cxt->must_eat_count) || 
-		cxt->philo_dead)
+	if (cxt->must_eat_count && philo->eat_count == cxt->must_eat_count)
 		return (0);
 	return (1);
 }
