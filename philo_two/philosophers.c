@@ -6,7 +6,7 @@
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/04 10:46:50 by adorigo           #+#    #+#             */
-/*   Updated: 2021/02/06 12:32:08 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/02/08 13:42:43 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,23 +62,23 @@ static void	*philosophing(void *vp)
 
 void		*ft_monitoring(void *vp)
 {
-	t_context	*context;
+	t_context	*cxt;
 	t_philo		*p;
 
-	context = ft_get_context();
+	cxt = ft_get_context();
 	p = vp;
 	while (1)
 	{
 		if (!p->is_eating)
 		{
-			if (!context->philo_alive)
+			if (!cxt->philo_alive)
 				break ;
-			if (get_time() - p->last_time_ate > (unsigned long)context->time_to_die)
+			if (get_time() - p->last_time_ate > (unsigned long)cxt->time_to_die)
 			{
-				print(context, p, DEAD);
-				sem_wait(context->someone_died);
-				context->philo_dead = 1;
-				sem_post(context->someone_died);
+				print(cxt, p, DEAD);
+				sem_wait(cxt->someone_died);
+				cxt->philo_dead = 1;
+				sem_post(cxt->someone_died);
 				break ;
 			}
 		}
