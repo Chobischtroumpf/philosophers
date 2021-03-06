@@ -6,7 +6,7 @@
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/10 17:26:35 by adorigo           #+#    #+#             */
-/*   Updated: 2021/02/08 13:41:33 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/03/06 13:51:55 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ int			init_context(void)
 	if (!(cxt->someone_died = sem_open(SEM_DEAD, O_CREAT, 0777, 1)))
 		return (error_ret("ERROR: failed to open 'someone_died'\n", 0));
 	cxt->start = get_time();
+	context->last_time_ate = context->start;
 	return (1);
 }
 
