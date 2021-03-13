@@ -6,13 +6,13 @@
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/06 14:14:46 by adorigo           #+#    #+#             */
-/*   Updated: 2021/03/13 14:38:39 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/03/13 15:08:39 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_one.h"
 
-static void	*monitor_count(void *context_void)
+void	*monitor_count(void *context_void)
 {
 	t_context	*context;
 	int			i;
@@ -25,14 +25,14 @@ static void	*monitor_count(void *context_void)
 	return ((void*)0);
 }
 
-static void	*monitor(void *philo_void)
+void	*monitor(void *philo_void)
 {
 	t_philo		*philo;
 
 	philo = (t_philo*)philo_void;
 	while (1)
 	{
-		pthread_mutex_lock(&philo->mutex);
+		// pthread_mutex_lock(&philo->mutex);
 		if (philo->context->must_eat_count &&
 			philo->eat_count == philo->context->must_eat_count)
 			pthread_mutex_unlock(&philo->mut_eaten_enough);
@@ -43,12 +43,12 @@ static void	*monitor(void *philo_void)
 			pthread_mutex_unlock(&philo->context->mut_philo_dead);
 			return ((void*)0);
 		}
-		pthread_mutex_unlock(&philo->mutex);
+		// pthread_mutex_unlock(&philo->mutex);
 		ft_usleep(1);
 	}
 }
 
-static void	*routine(void *philo_void)
+void	*routine(void *philo_void)
 {
 	t_philo		*philo;
 	pthread_t	tid;
@@ -60,10 +60,10 @@ static void	*routine(void *philo_void)
 		return ((void*)1);
 	while (1)
 	{
+		print(philo, THINKING);
 		take_fork(philo);
 		eating(philo);
 		drop_fork(philo); 
-		print(philo, THINKING);
 	}
 }
 
@@ -75,15 +75,8 @@ static int	start_thread(t_context *context)
 
 	context->start = get_time();
 	i = 0;
-	while (i < context->amount)
-	{
-		philo = (void *)(&context->philosophers[i]);
-		if (pthread_create(&tid, NULL, &routine, philo) != 0)
-			return (1);
-		pthread_detach(tid);
-		usleep(20);
-		i++;
-	}
+	if (philo_create_odd(context) || philo_create_even(context))
+		return (1);
 	if (context->must_eat_count > 0)
 	{
 		if (pthread_create(&tid, NULL, &monitor_count, (void *)context) != 0)

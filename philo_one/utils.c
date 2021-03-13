@@ -6,7 +6,7 @@
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 12:57:03 by adorigo           #+#    #+#             */
-/*   Updated: 2021/03/13 13:00:01 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/03/13 14:47:06 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,6 @@ void	ft_usleep(unsigned long sleep_time)
 {
 	unsigned long end;
 
-	usleep(sleep_time * 800);
 	end = get_time() + sleep_time;
 	while (get_time() < end)
 		usleep(100);

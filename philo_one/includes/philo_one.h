@@ -6,7 +6,7 @@
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/06 14:14:57 by adorigo           #+#    #+#             */
-/*   Updated: 2021/03/13 14:34:13 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/03/13 14:53:32 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,5 +72,8 @@ void					print(t_philo *philo, t_status status);
 void					ft_usleep(unsigned long sleep_time);
 unsigned long			get_time(void);
 size_t					ft_strlcat(char *dst, const char *src, size_t size);
+int						philo_create_odd(t_context *context);
+int						philo_create_even(t_context *context);
+void					*routine(void *philo_void);
 
 #endif
