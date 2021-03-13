@@ -6,7 +6,7 @@
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/06 14:14:57 by adorigo           #+#    #+#             */
-/*   Updated: 2021/03/06 14:41:16 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/03/13 14:34:13 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ typedef enum	e_status
 	SLEEPING,
 	FORK,
 	THINKING,
-	DYING
+	DYING,
+	FINISHED
 }				t_status;
 
 struct s_context;
@@ -40,7 +41,7 @@ typedef struct			s_philo
 	int					eat_count;
 	struct s_context	*context;
 	pthread_mutex_t		mutex;
-	pthread_mutex_t		mut_eat;
+	pthread_mutex_t		mut_eaten_enough;
 }						t_philo;
 
 typedef struct			s_context
@@ -53,20 +54,23 @@ typedef struct			s_context
 	unsigned long		start;
 	t_philo				*philosophers;
 	pthread_mutex_t		*mut_forks;
-	pthread_mutex_t		*mut_write;
-	pthread_mutex_t		*mut_philo_dead;
+	pthread_mutex_t		mut_write;
+	pthread_mutex_t		mut_philo_dead;
 }						t_context;
 
 int						ft_strlen(const char *str);
 int						ft_atoi(const char *str);
-int						ft_putnbr_fd(unsigned long n, int fd);
-int						get_time(void);
+void					ft_putstr_fd(char *str, int fd);
+void					*ft_memset(void *b, int c, size_t len);
 int						ft_clear_context(t_context *context);
 int						exit_error(const char *str);
-int						init(t_context *context, int argc, const char **argv);
+int						init(t_context *contxt, int argc, char **argv);
 void					take_fork(t_philo *philo);
 void					drop_fork(t_philo *philo);
 void					eating(t_philo *philo);
 void					print(t_philo *philo, t_status status);
+void					ft_usleep(unsigned long sleep_time);
+unsigned long			get_time(void);
+size_t					ft_strlcat(char *dst, const char *src, size_t size);
 
 #endif

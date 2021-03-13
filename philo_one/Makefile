@@ -12,7 +12,12 @@ OBJDIR	= objs/
 
 CXXFLAGS = -I $(INCDIR)
 
-SRCS	= 		main.c
+SRCS	= 		main.c			\
+				philosophers.c	\
+				print.c			\
+				utils.c			\
+				utils2.c		\
+				init_struct.c
 
 SRC		:= $(notdir $(SRCS)) # 					Files only
 OBJ		:= $(SRC:.c=.o)	#					Files only

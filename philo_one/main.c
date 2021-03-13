@@ -6,7 +6,7 @@
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/06 14:14:46 by adorigo           #+#    #+#             */
-/*   Updated: 2021/03/13 10:50:50 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/03/13 14:38:39 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,13 @@ static void	*monitor_count(void *context_void)
 {
 	t_context	*context;
 	int			i;
-	int			total;
 
 	context = (t_context*)context_void;
-	total = 0;
+	while (i < context->amount)
+		pthread_mutex_lock(&context->philosophers[i++].mut_eaten_enough);
+	print(&context->philosophers[0], FINISHED);
+	pthread_mutex_unlock(&context->mut_philo_dead);
+	return ((void*)0);
 }
 
 static void	*monitor(void *philo_void)
@@ -30,6 +33,9 @@ static void	*monitor(void *philo_void)
 	while (1)
 	{
 		pthread_mutex_lock(&philo->mutex);
+		if (philo->context->must_eat_count &&
+			philo->eat_count == philo->context->must_eat_count)
+			pthread_mutex_unlock(&philo->mut_eaten_enough);
 		if (!philo->eating && get_time() > philo->time_limit)
 		{
 			print(philo, DYING);
@@ -55,8 +61,8 @@ static void	*routine(void *philo_void)
 	while (1)
 	{
 		take_fork(philo);
-		eat(philo);
-		drop_fork(philo);
+		eating(philo);
+		drop_fork(philo); 
 		print(philo, THINKING);
 	}
 }
@@ -68,12 +74,6 @@ static int	start_thread(t_context *context)
 	void		*philo;
 
 	context->start = get_time();
-	if (context->must_eat_count > 0)
-	{
-		if (pthread_create(&tid, NULL, &monitor_count, (void *)context) != 0)
-			return (1);
-		pthread_detach(tid);
-	}
 	i = 0;
 	while (i < context->amount)
 	{
@@ -83,6 +83,12 @@ static int	start_thread(t_context *context)
 		pthread_detach(tid);
 		usleep(20);
 		i++;
+	}
+	if (context->must_eat_count > 0)
+	{
+		if (pthread_create(&tid, NULL, &monitor_count, (void *)context) != 0)
+			return (1);
+		pthread_detach(tid);
 	}
 	return (0);
 }
