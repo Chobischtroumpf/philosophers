@@ -6,7 +6,7 @@
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/10 17:26:35 by adorigo           #+#    #+#             */
-/*   Updated: 2021/02/05 17:17:05 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/03/13 11:19:56 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,6 @@ int		main(int argc, char *argv[])
 			break ;
 		ft_usleep(1);
 	}
-	ft_usleep(cxt->time_to_eat + cxt->time_to_die + cxt->time_to_sleep);
+	// ft_usleep(cxt->time_to_eat + cxt->time_to_die + cxt->time_to_sleep);
 	return (ft_free_all(EXIT_SUCCESS));
 }

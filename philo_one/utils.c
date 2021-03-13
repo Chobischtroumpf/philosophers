@@ -6,7 +6,7 @@
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/11 10:17:25 by adorigo           #+#    #+#             */
-/*   Updated: 2021/02/04 23:57:17 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/03/13 11:17:39 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,16 +83,16 @@ int		ft_free_all(int ret)
 
 	i = -1;
 	cxt = ft_get_context();
-	ft_free_mutex(cxt);
-	while (++i < cxt->num_philo)
-	{
-		pthread_mutex_lock(&cxt->forks[i]);
-		pthread_mutex_unlock(&cxt->forks[i]);
-		pthread_mutex_destroy(&cxt->forks[i]);
-		pthread_mutex_lock(&cxt->eating[i]);
-		pthread_mutex_unlock(&cxt->eating[i]);
-		pthread_mutex_destroy(&cxt->eating[i]);
-	}
+	// ft_free_mutex(cxt);
+	// while (++i < cxt->num_philo)
+	// {
+	// 	pthread_mutex_lock(&cxt->forks[i]);
+	// 	pthread_mutex_unlock(&cxt->forks[i]);
+	// 	pthread_mutex_destroy(&cxt->forks[i]);
+	// 	pthread_mutex_lock(&cxt->eating[i]);
+	// 	pthread_mutex_unlock(&cxt->eating[i]);
+	// 	pthread_mutex_destroy(&cxt->eating[i]);
+	// }
 	free(cxt->forks);
 	free(cxt->eating);
 	free(cxt->philosophers);
