@@ -6,7 +6,7 @@
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 13:04:56 by adorigo           #+#    #+#             */
-/*   Updated: 2021/03/14 12:28:27 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/03/14 14:20:14 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ int			init(t_context *contxt, int argc, char **argv)
 		return (1);
 	contxt->mut_forks = NULL;
 	contxt->philosophers = NULL;
+	contxt->is_dead = 0;
 	if (!(contxt->philosophers = (t_philo*)malloc(sizeof(*(contxt->philosophers)) *contxt->amount)))
 		return (1);
 	init_philo(contxt);

@@ -6,7 +6,7 @@
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/06 14:14:57 by adorigo           #+#    #+#             */
-/*   Updated: 2021/03/14 12:59:36 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/03/14 14:27:40 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ typedef struct			s_philo
 
 typedef struct			s_context
 {
+	int					is_dead;
 	int					amount;
 	unsigned long		time_to_die;
 	unsigned long		time_to_eat;

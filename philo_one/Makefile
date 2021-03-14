@@ -2,7 +2,7 @@
 
 NAME    = philo_one
 CXX     = gcc
-CFLAGS  = -g -fsanitize=address -Wall -Werror -Wextra 
+CFLAGS  = -Wall -Werror -Wextra
 
 SRCDIR  = ./
 INCDIR  = includes/
@@ -15,8 +15,7 @@ SRCS    =		main.c			\
 				init_struct.c	\
 				print.c			\
 				utils.c			\
-				utils2.c		\
-
+				utils2.c
 
 SRC             := $(notdir $(SRCS)) #                                  Files only
 OBJ             := $(SRC:.c=.o)       #                                       Files only
