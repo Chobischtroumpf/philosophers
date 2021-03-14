@@ -6,7 +6,7 @@
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 11:26:55 by adorigo           #+#    #+#             */
-/*   Updated: 2021/03/14 14:55:26 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/03/14 16:03:35 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ void	drop_fork(t_philo *philo)
 	pthread_mutex_unlock(&philo->context->mut_forks[philo->rfork]);
 	print(philo, SLEEPING);
 	ft_usleep(philo->context->time_to_sleep);
-
 }
 
 int		philo_create_odd(t_context *context)
@@ -51,7 +50,7 @@ int		philo_create_odd(t_context *context)
 	i = 1;
 	while (i < context->amount)
 	{
-		philo = (void *)(&context->philosophers[i]);
+		philo = (void *)(&context->philo[i]);
 		if (pthread_create(&tid, NULL, &routine, philo) != 0)
 			return (1);
 		pthread_detach(tid);
@@ -67,11 +66,10 @@ int		philo_create_even(t_context *context)
 	pthread_t	tid;
 	t_philo		*philo;
 
-
 	i = 0;
 	while (i < context->amount)
 	{
-		philo = (void *)(&context->philosophers[i]);
+		philo = (void *)(&context->philo[i]);
 		if (pthread_create(&tid, NULL, &routine, philo) != 0)
 			return (1);
 		pthread_detach(tid);

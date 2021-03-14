@@ -6,7 +6,7 @@
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 13:03:21 by adorigo           #+#    #+#             */
-/*   Updated: 2021/03/14 14:31:09 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/03/14 16:05:06 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,18 +49,18 @@ int				ft_clear_context(t_context *contxt)
 			pthread_mutex_destroy(&contxt->mut_forks[i++]);
 		free(contxt->mut_forks);
 	}
-	if (contxt->philosophers)
+	if (contxt->philo)
 	{
 		i = 0;
 		while (i < contxt->amount)
-			pthread_mutex_unlock(&contxt->philosophers[i++].mut_eaten_enough);
+			pthread_mutex_unlock(&contxt->philo[i++].mut_eaten_enough);
 		i = 0;
 		while (i < contxt->amount)
 		{
-			pthread_mutex_destroy(&contxt->philosophers[i].mutex);
-			pthread_mutex_destroy(&contxt->philosophers[i++].mut_eaten_enough);
+			pthread_mutex_destroy(&contxt->philo[i].mutex);
+			pthread_mutex_destroy(&contxt->philo[i++].mut_eaten_enough);
 		}
-		free(contxt->philosophers);
+		free(contxt->philo);
 	}
 	pthread_mutex_destroy(&contxt->mut_write);
 	pthread_mutex_destroy(&contxt->mut_philo_dead);

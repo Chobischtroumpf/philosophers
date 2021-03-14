@@ -6,7 +6,7 @@
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/06 14:14:57 by adorigo           #+#    #+#             */
-/*   Updated: 2021/03/14 15:23:04 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/03/14 15:55:47 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ typedef struct			s_context
 	unsigned long		time_to_sleep;
 	int					must_eat_count;
 	unsigned long		start;
-	t_philo				*philosophers;
+	t_philo				*philo;
 	pthread_mutex_t		*mut_forks;
 	pthread_mutex_t		mut_write;
 	pthread_mutex_t		mut_philo_dead;
