@@ -6,7 +6,7 @@
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/06 14:14:46 by adorigo           #+#    #+#             */
-/*   Updated: 2021/03/13 15:08:39 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/03/14 12:59:47 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,23 +25,29 @@ void	*monitor_count(void *context_void)
 	return ((void*)0);
 }
 
-void	*monitor(void *philo_void)
+void	*monitor(void *context_void)
 {
-	t_philo		*philo;
+	t_context	*context;
+	int			i;
 
-	philo = (t_philo*)philo_void;
+	context = (t_context*)context_void;
 	while (1)
 	{
+		i = 0;
 		// pthread_mutex_lock(&philo->mutex);
-		if (philo->context->must_eat_count &&
-			philo->eat_count == philo->context->must_eat_count)
-			pthread_mutex_unlock(&philo->mut_eaten_enough);
-		if (!philo->eating && get_time() > philo->time_limit)
+		while (i < context->amount)
 		{
-			print(philo, DYING);
-			pthread_mutex_unlock(&philo->mutex);
-			pthread_mutex_unlock(&philo->context->mut_philo_dead);
-			return ((void*)0);
+			if (context->must_eat_count &&
+				context->philosophers->eat_count == context->must_eat_count)
+				pthread_mutex_unlock(&context->philosophers[i].mut_eaten_enough);
+			if (!context->philosophers[i].eating && 
+				get_time() > context->philosophers[i].time_limit)
+			{
+				print(&context->philosophers[i++], DYING);
+				// pthread_mutex_unlock(&philo->mutex);
+				pthread_mutex_unlock(&context->mut_philo_dead);
+				return ((void*)0);
+			}
 		}
 		// pthread_mutex_unlock(&philo->mutex);
 		ft_usleep(1);
@@ -56,8 +62,6 @@ void	*routine(void *philo_void)
 	philo = (t_philo*)philo_void;
 	philo->last_time_ate = philo->context->start;
 	philo->time_limit = philo->last_time_ate + philo->context->time_to_die;
-	if (pthread_create(&tid, NULL, &monitor, philo_void) != 0)
-		return ((void*)1);
 	while (1)
 	{
 		print(philo, THINKING);
@@ -75,7 +79,7 @@ static int	start_thread(t_context *context)
 
 	context->start = get_time();
 	i = 0;
-	if (philo_create_odd(context) || philo_create_even(context))
+	if ( philo_create_even(context) || philo_create_odd(context))
 		return (1);
 	if (context->must_eat_count > 0)
 	{
@@ -83,6 +87,9 @@ static int	start_thread(t_context *context)
 			return (1);
 		pthread_detach(tid);
 	}
+	if (pthread_create(&tid, NULL, &monitor, (void *)context) != 0)
+		return (1);
+	pthread_detach(tid);
 	return (0);
 }
 

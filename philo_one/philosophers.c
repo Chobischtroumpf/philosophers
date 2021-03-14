@@ -6,7 +6,7 @@
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 11:26:55 by adorigo           #+#    #+#             */
-/*   Updated: 2021/03/13 15:09:40 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/03/14 12:59:13 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 void	eating(t_philo *philo)
 {
-	// pthread_mutex_lock(&philo->mutex);
+	pthread_mutex_lock(&philo->mutex);
 	philo->eating = 1;
 	philo->last_time_ate = get_time();
 	philo->time_limit = philo->last_time_ate + philo->context->time_to_die;
 	print(philo, EATING);
 	philo->eat_count++;
 	philo->eating = 0;
-	// pthread_mutex_unlock(&philo->mutex);
+	pthread_mutex_unlock(&philo->mutex);
 	ft_usleep(philo->context->time_to_eat);
 }
 

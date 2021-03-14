@@ -6,7 +6,7 @@
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/06 14:14:57 by adorigo           #+#    #+#             */
-/*   Updated: 2021/03/13 14:53:32 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/03/14 12:59:36 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <unistd.h>
 # include <pthread.h>
 # include <sys/time.h>
+# include <stdio.h>
 
 typedef enum	e_status
 {

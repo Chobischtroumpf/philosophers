@@ -6,7 +6,7 @@
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 13:04:56 by adorigo           #+#    #+#             */
-/*   Updated: 2021/03/13 14:38:42 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/03/14 12:28:27 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ static int	init_mutexes(t_context *context)
 {
 	int	i;
 
+	i = 0;
 	pthread_mutex_init(&context->mut_write, NULL);
 	pthread_mutex_init(&context->mut_philo_dead, NULL);
 	pthread_mutex_lock(&context->mut_philo_dead);
