@@ -6,7 +6,7 @@
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/06 14:14:57 by adorigo           #+#    #+#             */
-/*   Updated: 2021/03/14 14:27:40 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/03/14 15:23:04 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ typedef struct			s_philo
 
 typedef struct			s_context
 {
-	int					is_dead;
+	int					exit_thread;
 	int					amount;
 	unsigned long		time_to_die;
 	unsigned long		time_to_eat;
@@ -58,6 +58,7 @@ typedef struct			s_context
 	pthread_mutex_t		*mut_forks;
 	pthread_mutex_t		mut_write;
 	pthread_mutex_t		mut_philo_dead;
+	pthread_mutex_t		mut_exit_thread;
 }						t_context;
 
 int						ft_strlen(const char *str);

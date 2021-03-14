@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   main1.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/06 14:14:46 by adorigo           #+#    #+#             */
-/*   Updated: 2021/03/14 15:41:32 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/03/14 15:10:07 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,39 +21,32 @@ void	*monitor_count(void *context_void)
 	while (i < context->amount)
 		pthread_mutex_lock(&context->philosophers[i++].mut_eaten_enough);
 	print(&context->philosophers[0], FINISHED);
-	pthread_mutex_lock(&context->mut_exit_thread);
-	context->exit_thread = 1;
-	pthread_mutex_unlock(&context->mut_exit_thread);
 	pthread_mutex_unlock(&context->mut_philo_dead);
 	return ((void*)0);
 }
 
-void	*monitor(void *context_void)
+void	*monitor(void *philo_void)
 {
-	t_context	*context;
+	t_philo	*philo;
 	int			i;
 
-	context = (t_context*)context_void;
+	philo = (t_philo*)philo_void;
 	while (1)
 	{
-		if (context->exit_thread)
-			return ((void*)0);
 		i = -1;
-		while (++i < context->amount)
-		{
-			if (context->exit_thread)
-				break ;
+		// while (++i < philo->context->amount)
+		// {
 			// pthread_mutex_lock(&context->philosophers[i].mutex);
-			if (context->must_eat_count &&
-				context->philosophers->eat_count == context->must_eat_count)
-				pthread_mutex_unlock(&context->philosophers[i].mut_eaten_enough);
-			if (!context->philosophers[i].eating && 
-				get_time() > context->philosophers[i].time_limit)
+			if (philo->context->must_eat_count &&
+				philo->eat_count == philo->context->must_eat_count)
+				pthread_mutex_unlock(&philo->mut_eaten_enough);
+			if (!philo->context->philosophers[i].eating && 
+				get_time() > philo->time_limit)
 			{
 				print(&context->philosophers[i], DYING);
-				pthread_mutex_lock(&context->mut_exit_thread);
-				context->exit_thread = 1;
-				pthread_mutex_unlock(&context->mut_exit_thread);
+				// pthread_mutex_lock(&context->philosophers[i].mutex);
+				context->is_dead = 1;
+				// pthread_mutex_unlock(&context->philosophers[i].mutex);
 				pthread_mutex_unlock(&context->mut_philo_dead);
 				return ((void*)0);
 			}
@@ -72,16 +65,24 @@ void	*routine(void *philo_void)
 	philo = (t_philo*)philo_void;
 	philo->last_time_ate = philo->context->start;
 	philo->time_limit = philo->last_time_ate + philo->context->time_to_die;
-	while (1)
+	if (pthread_create(&tid, NULL, &monitor, (void *)philo) != 0)
+		return (1);
+	pthread_detach(tid);while (1)
 	{
-		if (philo->context->exit_thread)
+		if (philo->context->is_dead)
 			break ;
 		print(philo, THINKING);
 		take_fork(philo);
+		if (philo->context->is_dead)
+			break ;
 		eating(philo);
+		if (philo->context->is_dead)
+			break ;
 		drop_fork(philo);
+		if (philo->context->is_dead)
+			break ;
 	}
-	// printf("philo : %d ending\n", philo->pos);
+	printf("philo : %d ending\n", philo->pos);
 	return ((void *)0);
 }
 

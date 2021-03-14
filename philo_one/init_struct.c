@@ -6,7 +6,7 @@
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 13:04:56 by adorigo           #+#    #+#             */
-/*   Updated: 2021/03/14 14:20:14 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/03/14 15:26:04 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ static int	init_mutexes(t_context *context)
 
 	i = 0;
 	pthread_mutex_init(&context->mut_write, NULL);
+	pthread_mutex_init(&context->mut_exit_thread, NULL);
 	pthread_mutex_init(&context->mut_philo_dead, NULL);
 	pthread_mutex_lock(&context->mut_philo_dead);
 	if (!(context->mut_forks =
@@ -64,7 +65,7 @@ int			init(t_context *contxt, int argc, char **argv)
 		return (1);
 	contxt->mut_forks = NULL;
 	contxt->philosophers = NULL;
-	contxt->is_dead = 0;
+	contxt->exit_thread = 0;
 	if (!(contxt->philosophers = (t_philo*)malloc(sizeof(*(contxt->philosophers)) *contxt->amount)))
 		return (1);
 	init_philo(contxt);
