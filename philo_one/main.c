@@ -6,7 +6,7 @@
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/06 14:14:46 by adorigo           #+#    #+#             */
-/*   Updated: 2021/03/14 14:42:50 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/03/14 14:55:13 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ void	*monitor(void *context_void)
 				get_time() > context->philosophers[i].time_limit)
 			{
 				print(&context->philosophers[i], DYING);
+				// pthread_mutex_lock(&context->philosophers[i].mutex);
+				context->is_dead = 1;
 				// pthread_mutex_unlock(&context->philosophers[i].mutex);
 				pthread_mutex_unlock(&context->mut_philo_dead);
 				return ((void*)0);
@@ -119,7 +121,7 @@ int	main(int argc, char **argv)
 		return (ft_clear_context(&cxt) && exit_error("fatal error\n"));
 	pthread_mutex_lock(&cxt.mut_philo_dead);
 	pthread_mutex_unlock(&cxt.mut_philo_dead);
-	ft_usleep((cxt.time_to_die + cxt.time_to_eat + cxt.time_to_sleep)*2);
+	ft_usleep(cxt.time_to_die + cxt.time_to_eat + cxt.time_to_sleep);
 	ft_clear_context(&cxt);
 	// sleep(10);
 }
