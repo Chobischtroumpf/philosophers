@@ -6,7 +6,7 @@
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/06 14:14:46 by adorigo           #+#    #+#             */
-/*   Updated: 2021/03/14 16:02:05 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/03/16 14:42:34 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void		*monitor_count(void *context_void)
 	t_context	*context;
 	int			i;
 
+	i = 0;
 	context = (t_context*)context_void;
 	while (i < context->amount)
 		pthread_mutex_lock(&context->philo[i++].mut_eaten_enough);
@@ -59,7 +60,6 @@ void		*monitor(void *context_void)
 void		*routine(void *philo_void)
 {
 	t_philo		*philo;
-	pthread_t	tid;
 
 	philo = (t_philo*)philo_void;
 	philo->last_time_ate = philo->context->start;
@@ -80,7 +80,7 @@ static int	start_thread(t_context *context)
 {
 	int			i;
 	pthread_t	tid;
-	void		*philo;
+//	void		*philo;
 
 	context->start = get_time();
 	i = 0;

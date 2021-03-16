@@ -6,7 +6,7 @@
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 13:03:21 by adorigo           #+#    #+#             */
-/*   Updated: 2021/03/14 16:05:06 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/03/16 14:55:12 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,13 @@ int				ft_clear_context(t_context *contxt)
 {
 	int	i;
 
+	printf("in here\n");
 	if (contxt->mut_forks)
 	{
 		i = 0;
 		while (i < contxt->amount)
 			pthread_mutex_destroy(&contxt->mut_forks[i++]);
+		printf("after first free\n");
 		free(contxt->mut_forks);
 	}
 	if (contxt->philo)

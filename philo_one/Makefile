@@ -2,7 +2,7 @@
 
 NAME    = philo_one
 CXX     = gcc
-CFLAGS  = -Wall -Werror -Wextra
+CXXFLAGS  = -g -fsanitize=address -Wall -Werror -Wextra
 
 SRCDIR  = ./
 INCDIR  = includes/
