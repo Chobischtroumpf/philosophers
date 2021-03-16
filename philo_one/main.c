@@ -6,7 +6,7 @@
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/06 14:14:46 by adorigo           #+#    #+#             */
-/*   Updated: 2021/03/16 17:36:13 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/03/16 18:19:21 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,12 +76,9 @@ void		*routine(void *philo_void)
 
 static int	start_thread(t_context *context)
 {
-	int			i;
 	pthread_t	tid;
-//	void		*philo;
 
 	context->start = get_time();
-	i = 0;
 	if (philo_create_even(context) || philo_create_odd(context))
 		return (1);
 	if (context->must_eat_count > 0)

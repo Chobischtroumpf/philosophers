@@ -6,7 +6,7 @@
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 12:57:03 by adorigo           #+#    #+#             */
-/*   Updated: 2021/03/13 14:47:06 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/03/16 18:19:30 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ int		ft_strlen(char const *str)
 int		ft_atoi(char const *str)
 {
 	int	i;
-	int	start;
 	int	is_neg;
 	int	res;
 
@@ -38,7 +37,6 @@ int		ft_atoi(char const *str)
 	is_neg = (str[i] == '-') ? -1 : 1;
 	if (is_neg == -1 || str[i] == '+')
 		i++;
-	start = i;
 	res = 0;
 	while (str[i] >= '0' && str[i] <= '9')
 		res = (res * 10) + (str[i++] - '0');
