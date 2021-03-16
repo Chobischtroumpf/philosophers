@@ -6,7 +6,7 @@
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 13:04:56 by adorigo           #+#    #+#             */
-/*   Updated: 2021/03/16 14:51:46 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/03/16 17:52:51 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int			init(t_context *contxt, int argc, char **argv)
 	if (argc == 6)
 	{
 		contxt->must_eat_count = ft_atoi(argv[5]);
-		if (contxt->must_eat_count)
+		if (!contxt->must_eat_count)
 			return (1);
 	}
 	else

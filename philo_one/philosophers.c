@@ -6,7 +6,7 @@
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 11:26:55 by adorigo           #+#    #+#             */
-/*   Updated: 2021/03/14 16:03:35 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/03/16 17:47:51 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,10 @@
 
 void	eating(t_philo *philo)
 {
+	pthread_mutex_lock(&philo->context->mut_forks[philo->lfork]);
+//	print(philo, FORK);
+	pthread_mutex_lock(&philo->context->mut_forks[philo->rfork]);
+//	print(philo, FORK);
 	pthread_mutex_lock(&philo->mutex);
 	philo->eating = 1;
 	philo->last_time_ate = get_time();
@@ -23,23 +27,27 @@ void	eating(t_philo *philo)
 	philo->eating = 0;
 	pthread_mutex_unlock(&philo->mutex);
 	ft_usleep(philo->context->time_to_eat);
-}
-
-void	take_fork(t_philo *philo)
-{
-	pthread_mutex_lock(&philo->context->mut_forks[philo->lfork]);
-	print(philo, FORK);
-	pthread_mutex_lock(&philo->context->mut_forks[philo->rfork]);
-	print(philo, FORK);
-}
-
-void	drop_fork(t_philo *philo)
-{
 	pthread_mutex_unlock(&philo->context->mut_forks[philo->lfork]);
 	pthread_mutex_unlock(&philo->context->mut_forks[philo->rfork]);
 	print(philo, SLEEPING);
 	ft_usleep(philo->context->time_to_sleep);
 }
+
+//void	take_fork(t_philo *philo)
+//{
+//	pthread_mutex_lock(&philo->context->mut_forks[philo->lfork]);
+//	print(philo, FORK);
+//	pthread_mutex_lock(&philo->context->mut_forks[philo->rfork]);
+//	print(philo, FORK);
+//}
+
+//void	drop_fork(t_philo *philo)
+//{
+//	pthread_mutex_unlock(&philo->context->mut_forks[philo->lfork]);
+//	pthread_mutex_unlock(&philo->context->mut_forks[philo->rfork]);
+//	print(philo, SLEEPING);
+//	ft_usleep(philo->context->time_to_sleep);
+//}
 
 int		philo_create_odd(t_context *context)
 {

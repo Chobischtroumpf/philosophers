@@ -6,7 +6,7 @@
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/06 14:14:46 by adorigo           #+#    #+#             */
-/*   Updated: 2021/03/16 14:42:34 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/03/16 17:36:13 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,7 @@ void		*routine(void *philo_void)
 		if (philo->context->exit_thread)
 			break ;
 		print(philo, THINKING);
-		take_fork(philo);
 		eating(philo);
-		drop_fork(philo);
 	}
 	return ((void *)0);
 }
