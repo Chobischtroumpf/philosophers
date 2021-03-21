@@ -6,7 +6,7 @@
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/06 14:14:57 by adorigo           #+#    #+#             */
-/*   Updated: 2021/03/21 14:24:02 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/03/21 15:45:16 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <semaphore.h>
 # include <sys/time.h>
 # include <stdio.h>
+#include <errno.h>
 
 # define SEM_FORK		"psemFork"
 # define SEM_WRITE		"psemWrite"
@@ -42,11 +43,8 @@ struct	s_context;
 typedef struct s_philo
 {
 	int					pos;
-	// int					eating;
 	unsigned long		time_limit;
 	unsigned long		last_time_ate;
-	int					lfork;
-	int					rfork;
 	int					eat_count;
 	struct s_context	*context;
 	sem_t				*mutex;

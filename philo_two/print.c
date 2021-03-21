@@ -6,7 +6,7 @@
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 12:27:00 by adorigo           #+#    #+#             */
-/*   Updated: 2021/03/21 13:08:29 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/03/21 15:47:16 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,11 @@ void
 	static int	end = 0;
 	char		buff[100];
 
-	sem_wait(philo->context->sem_write);
+	if (sem_wait(philo->context->sem_write) == -1)
+	{
+		exit_error("error waiting for semaphore sem_write\n");
+		perror(NULL);
+	}
 	if (!end)
 	{
 		ft_memset(buff, 0, 100);
@@ -84,5 +88,9 @@ void
 			end = 1;
 		ft_putstr_fd(buff, 1);
 	}
-	sem_post(philo->context->sem_write);
+	if (sem_post(philo->context->sem_write) == -1)
+	{
+		exit_error("error posting semaphore sem_write\n");
+		perror(NULL);
+	}
 }

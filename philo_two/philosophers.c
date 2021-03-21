@@ -6,7 +6,7 @@
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 11:26:55 by adorigo           #+#    #+#             */
-/*   Updated: 2021/03/21 15:03:09 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/03/21 15:49:24 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,31 @@
 
 void	eating(t_philo *philo)
 {
-	sem_wait(philo->context->sem_forks);
+	if (sem_wait(philo->context->sem_forks) == -1)
+		exit_error("error waiting for first semaphore sem_fork\n");
 	print(philo, FORK);
-	sem_wait(philo->context->sem_forks);
+	if (sem_wait(philo->context->sem_forks) == -1)
+		exit_error("error waiting for second semaphore sem_fork\n");
 	print(philo, FORK);
-	sem_wait(philo->mutex);
+	if (sem_wait(philo->mutex) == -1)
+		exit_error("error waiting for semaphore mutex\n");
 	philo->last_time_ate = get_time();
 	philo->time_limit = philo->last_time_ate + philo->context->time_to_die;
 	print(philo, EATING);
 	philo->eat_count++;
-	sem_post(philo->mutex);
+	if (sem_post(philo->mutex) == -1)
+		exit_error("error posting semaphore mutex\n");
 	// printf("here %d\n", philo->pos);
 	ft_usleep(philo->context->time_to_eat);
 	// printf("here2 %d\n", philo->pos);
-	sem_post(philo->context->sem_forks);
+	if (sem_post(philo->context->sem_forks) == -1)
+	{
+		exit_error("error posting first semaphore sem_fork\n");
+		perror(NULL);
+	}
 	// printf("here3 %d\n", philo->pos);
-	sem_post(philo->context->sem_forks);
+	if (sem_post(philo->context->sem_forks) == -1)
+		exit_error("error posting second semaphore sem_fork\n");
 	// printf("here4 %d\n", philo->pos);
 	print(philo, SLEEPING);
 	ft_usleep(philo->context->time_to_sleep);

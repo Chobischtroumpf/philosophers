@@ -6,7 +6,7 @@
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/06 14:14:46 by adorigo           #+#    #+#             */
-/*   Updated: 2021/03/21 15:02:37 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/03/21 15:58:37 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	*monitor_count(void *context_void)
 	context = (t_context*)context_void;
 	while (i < context->amount)
 	{
-		if (sem_wait(context->philo[i++].sem_eaten_enough))
+		if (sem_wait(context->philo[i++].sem_eaten_enough) == -1)
 		{
 			exit_error("sem_wait error\n");
 			return ((void *) 0);
@@ -31,10 +31,13 @@ void	*monitor_count(void *context_void)
 	print(&context->philo[0], FINISHED);
 	printf("before sem_post\n");
 	exit(0);
-	sem_wait(context->sem_exit_thread);
+	if (sem_wait(context->sem_exit_thread) == -1)
+		exit_error("error waiting for semaphore exit_thread\n");
 	context->exit_thread = 1;
-	sem_post(context->sem_exit_thread);
-	sem_post(context->sem_philo_dead);
+	if (sem_post(context->sem_exit_thread) == -1)
+		exit_error("error posting for semaphore exit_thread\n");
+	if (sem_post(context->sem_philo_dead) == -1)
+		exit_error("error posting semaphore philo_dead\n");
 	return ((void*) 0);
 }
 
@@ -114,10 +117,13 @@ int	main(int argc, char **argv)
 {
 	t_context	cxt;
 
+	errno = 0;
 	if (argc < 5 || argc > 6)
 		return (exit_error("error: wrong amount of args\n"));
+	perror(NULL);
 	if (init(&cxt, argc, argv))
 		return (ft_clear_context(&cxt) && exit_error("fatal error\n"));
+	perror(NULL);
 	if (start_thread(&cxt))
 		return (ft_clear_context(&cxt) && exit_error("fatal error\n"));
 	sem_wait(cxt.sem_philo_dead);

@@ -6,7 +6,7 @@
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 13:04:56 by adorigo           #+#    #+#             */
-/*   Updated: 2021/03/21 14:24:14 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/03/21 15:56:28 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,9 @@ static int	init_semaphores(t_context *context)
 	context->sem_exit_thread = ft_sem_open(SEM_EXIT, 1);
 	context->sem_write = ft_sem_open(SEM_WRITE, 1);
 	context->sem_philo_dead = ft_sem_open(SEM_DEAD, 1);
+	context->sem_exit_thread = ft_sem_open(SEM_EXIT, 1);
 	if (context->sem_forks < 0 || context->sem_write < 0
-		|| context->sem_philo_dead < 0)
+		|| context->sem_philo_dead < 0 || context->sem_exit_thread < 0)
 		return (1);
 	sem_wait(context->sem_philo_dead);
 	return (0);
@@ -37,8 +38,6 @@ static int	init_philo(t_context *context)
 	while (i < context->amount)
 	{
 		context->philo[i].pos = i;
-		context->philo[i].lfork = i;
-		context->philo[i].rfork = (i + 1) % context->amount;
 		context->philo[i].eat_count = 0;
 		context->philo[i].context = context;
 		make_semaphore_name(SEM_PHILO, (char *)semaphore, i);
