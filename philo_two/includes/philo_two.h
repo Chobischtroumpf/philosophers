@@ -1,25 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo_one.h                                        :+:      :+:    :+:   */
+/*   philo_two.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/06 14:14:57 by adorigo           #+#    #+#             */
-/*   Updated: 2021/03/14 15:55:47 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/03/21 14:24:02 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHILO_ONE_H
-# define PHILO_ONE_H
+#ifndef PHILO_TWO_H
+# define PHILO_TWO_H
 
 # include <stdlib.h>
 # include <unistd.h>
 # include <pthread.h>
+# include <semaphore.h>
 # include <sys/time.h>
 # include <stdio.h>
 
-typedef enum	e_status
+# define SEM_FORK		"psemFork"
+# define SEM_WRITE		"psemWrite"
+# define SEM_DEAD		"psemDead"
+# define SEM_EXIT		"psemExit"
+# define SEM_PHILO		"psemPhilo"
+# define SEM_PHILOEAT	"psemPhiloEat"
+
+typedef enum e_status
 {
 	EATING,
 	SLEEPING,
@@ -29,23 +37,23 @@ typedef enum	e_status
 	FINISHED
 }				t_status;
 
-struct s_context;
+struct	s_context;
 
-typedef struct			s_philo
+typedef struct s_philo
 {
 	int					pos;
-	int					eating;
+	// int					eating;
 	unsigned long		time_limit;
 	unsigned long		last_time_ate;
 	int					lfork;
 	int					rfork;
 	int					eat_count;
 	struct s_context	*context;
-	pthread_mutex_t		mutex;
-	pthread_mutex_t		mut_eaten_enough;
+	sem_t				*mutex;
+	sem_t				*sem_eaten_enough;
 }						t_philo;
 
-typedef struct			s_context
+typedef struct s_context
 {
 	int					exit_thread;
 	int					amount;
@@ -55,10 +63,10 @@ typedef struct			s_context
 	int					must_eat_count;
 	unsigned long		start;
 	t_philo				*philo;
-	pthread_mutex_t		*mut_forks;
-	pthread_mutex_t		mut_write;
-	pthread_mutex_t		mut_philo_dead;
-	pthread_mutex_t		mut_exit_thread;
+	sem_t				*sem_forks;
+	sem_t				*sem_write;
+	sem_t				*sem_philo_dead;
+	sem_t				*sem_exit_thread;
 }						t_context;
 
 int						ft_strlen(const char *str);
@@ -78,5 +86,9 @@ size_t					ft_strlcat(char *dst, const char *src, size_t size);
 int						philo_create_odd(t_context *context);
 int						philo_create_even(t_context *context);
 void					*routine(void *philo_void);
+sem_t					*ft_sem_open(char const *name, int value);
+char					*make_semaphore_name(char const *base, char *buffer,
+							int position);
+int						ft_strcpy(char *dst, const char *src);
 
 #endif

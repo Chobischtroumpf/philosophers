@@ -1,8 +1,8 @@
 # ================================ VARIABLES ================================= #
 
-NAME    = philo_one
+NAME    = philo_two
 CXX     = gcc
-CXXFLAGS  = -Wall -Werror -Wextra
+CXXFLAGS  = -Wall -Werror -Wextra # -g -fsanitize=address
 
 SRCDIR  = ./
 INCDIR  = includes/
@@ -11,6 +11,7 @@ OBJDIR  = objs/
 CXXFLAGS	+= -I $(INCDIR)
 
 SRCS    =		main.c			\
+				semaphore.c	\
 				philosophers.c	\
 				init_struct.c	\
 				print.c			\

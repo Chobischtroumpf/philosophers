@@ -6,14 +6,13 @@
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 12:27:00 by adorigo           #+#    #+#             */
-/*   Updated: 2021/03/16 17:49:06 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/03/21 13:08:29 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo_one.h"
+#include "philo_two.h"
 
-static void
-	num_to_str(char t[], unsigned long num, int idx)
+static void	num_to_str(char t[], unsigned long num, int idx)
 {
 	if (idx == 1)
 		t[idx - 1] = num + '0';
@@ -24,10 +23,9 @@ static void
 	}
 }
 
-static int
-	count_digit(unsigned long num)
+static int	count_digit(unsigned long num)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (num == 0)
@@ -47,7 +45,7 @@ static void
 	size_t	size;
 	char	t[20];
 
-	size = 300;
+	size = 100;
 	ft_memset(t, 0, 20);
 	digit = count_digit(time);
 	num_to_str(t, time, digit);
@@ -63,24 +61,19 @@ void
 	print(t_philo *philo, t_status s)
 {
 	static int	end = 0;
-	char		buff[300];
+	char		buff[100];
 
-	pthread_mutex_lock(&philo->context->mut_write);
+	sem_wait(philo->context->sem_write);
 	if (!end)
 	{
-		ft_memset(buff, 0, 300);
+		ft_memset(buff, 0, 100);
 		copy_to_buff(buff, get_time() - philo->context->start, philo->pos);
 		if (s == THINKING)
 			ft_strlcat(buff, " is thinking\n", 100);
+		else if (s == FORK)
+			ft_strlcat(buff, " picked up a fork\n", 100);
 		else if (s == EATING)
-		{
-	//		printf("%lu %d picked up a fork\n%lu %d picked up a fork\n%lu %d is eating\n", get_time() - philo->context->start, philo->pos, get_time() - philo->context->start, philo->pos, get_time() - philo->context->start, philo->pos);
-			ft_strlcat(buff, " picked up a fork\n", 300);
-			copy_to_buff(buff, get_time() - philo->context->start, philo->pos);
-			ft_strlcat(buff, " picked up a fork\n", 300);
-			copy_to_buff(buff, get_time() - philo->context->start, philo->pos);
 			ft_strlcat(buff, " is eating\n", 300);
-		}
 		else if (s == SLEEPING)
 			ft_strlcat(buff, " is sleeping\n", 100);
 		else if (s == DYING)
@@ -91,5 +84,5 @@ void
 			end = 1;
 		ft_putstr_fd(buff, 1);
 	}
-	pthread_mutex_unlock(&philo->context->mut_write);
+	sem_post(philo->context->sem_write);
 }

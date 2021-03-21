@@ -6,7 +6,7 @@
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/06 14:14:46 by adorigo           #+#    #+#             */
-/*   Updated: 2021/03/16 18:19:21 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/03/21 13:51:29 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,6 @@ void		*monitor(void *context_void)
 		{
 			if (cxt->exit_thread)
 				return ((void*)0);
-			if (cxt->philo->eat_count == cxt->must_eat_count)
-				pthread_mutex_unlock(&cxt->philo[i].mut_eaten_enough);
 			if (!cxt->philo[i].eating && get_time() > cxt->philo[i].time_limit)
 			{
 				print(&cxt->philo[i], DYING);
@@ -66,6 +64,8 @@ void		*routine(void *philo_void)
 	philo->time_limit = philo->last_time_ate + philo->context->time_to_die;
 	while (1)
 	{
+		if (philo->eat_count == philo->context->must_eat_count)
+			pthread_mutex_unlock(&philo->mut_eaten_enough);
 		if (philo->context->exit_thread)
 			break ;
 		print(philo, THINKING);
