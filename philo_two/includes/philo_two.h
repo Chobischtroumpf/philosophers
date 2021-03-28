@@ -6,7 +6,7 @@
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/06 14:14:57 by adorigo           #+#    #+#             */
-/*   Updated: 2021/03/21 15:45:16 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/03/28 12:01:26 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 # include <semaphore.h>
 # include <sys/time.h>
 # include <stdio.h>
-#include <errno.h>
 
 # define SEM_FORK		"psemFork"
 # define SEM_WRITE		"psemWrite"
@@ -48,7 +47,6 @@ typedef struct s_philo
 	int					eat_count;
 	struct s_context	*context;
 	sem_t				*mutex;
-	sem_t				*sem_eaten_enough;
 }						t_philo;
 
 typedef struct s_context
@@ -65,6 +63,7 @@ typedef struct s_context
 	sem_t				*sem_write;
 	sem_t				*sem_philo_dead;
 	sem_t				*sem_exit_thread;
+	sem_t				*sem_eaten_enough;
 }						t_context;
 
 int						ft_strlen(const char *str);

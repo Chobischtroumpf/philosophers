@@ -6,7 +6,7 @@
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 13:03:21 by adorigo           #+#    #+#             */
-/*   Updated: 2021/03/21 15:31:26 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/03/28 12:18:35 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,23 +57,16 @@ int	ft_clear_context(t_context *contxt)
 	int		i;
 	char	semaphore[255];
 
-	// sem_close(contxt->sem_forks);
 	sem_unlink(SEM_FORK);
-	// sem_close(contxt->sem_write);
 	sem_unlink(SEM_WRITE);
-	// sem_close(contxt->sem_philo_dead);
 	sem_unlink(SEM_DEAD);
-
+	sem_unlink(SEM_PHILOEAT);
 	if (contxt->philo)
 	{
 		i = -1;
 		while (++i < contxt->amount && &contxt->philo[i] != NULL)
 		{
-			// sem_close(contxt->philo[i].mutex);
 			make_semaphore_name(SEM_PHILO, (char *)semaphore, i);
-			sem_unlink(semaphore);
-			// sem_close(contxt->philo[i].sem_eaten_enough);
-			make_semaphore_name(SEM_PHILOEAT, (char *)semaphore, i);
 			sem_unlink(semaphore);
 		}
 		free(contxt->philo);

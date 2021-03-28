@@ -6,7 +6,7 @@
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/06 14:14:46 by adorigo           #+#    #+#             */
-/*   Updated: 2021/03/21 15:58:37 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/03/28 12:15:12 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,23 +21,19 @@ void	*monitor_count(void *context_void)
 	context = (t_context*)context_void;
 	while (i < context->amount)
 	{
-		if (sem_wait(context->philo[i++].sem_eaten_enough) == -1)
+		if (sem_wait(context->sem_eaten_enough) == -1)
 		{
 			exit_error("sem_wait error\n");
 			return ((void *) 0);
 		}
+		i++;
 	}
 	// ft_usleep(context->time_to_sleep);
 	print(&context->philo[0], FINISHED);
-	printf("before sem_post\n");
-	exit(0);
-	if (sem_wait(context->sem_exit_thread) == -1)
-		exit_error("error waiting for semaphore exit_thread\n");
+	sem_wait(context->sem_exit_thread) == -1;
 	context->exit_thread = 1;
-	if (sem_post(context->sem_exit_thread) == -1)
-		exit_error("error posting for semaphore exit_thread\n");
-	if (sem_post(context->sem_philo_dead) == -1)
-		exit_error("error posting semaphore philo_dead\n");
+	sem_post(context->sem_exit_thread) == -1;
+	sem_post(context->sem_philo_dead) == -1;
 	return ((void*) 0);
 }
 
@@ -55,14 +51,11 @@ void	*monitor(void *context_void)
 			if (cxt->exit_thread)
 				return ((void*) 0);
 			if (cxt->philo[i].eat_count == cxt->must_eat_count)
-			{
-				sem_post(cxt->philo[i].sem_eaten_enough);
-			}
+				sem_post(cxt->sem_eaten_enough);
 			sem_wait(cxt->philo[i].mutex);
 			if (get_time() > cxt->philo[i].time_limit)
 			{
 				print(&cxt->philo[i], DYING);
-				printf("is dying\n");
 				sem_wait(cxt->sem_exit_thread);
 				cxt->exit_thread = 1;
 				sem_post(cxt->sem_exit_thread);
