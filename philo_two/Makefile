@@ -1,7 +1,7 @@
 # ================================ VARIABLES ================================= #
 
 NAME    = philo_two
-CXX     = gcc
+CXX     = clang
 CXXFLAGS  = -Wall -Werror -Wextra # -g -fsanitize=address
 
 SRCDIR  = ./
