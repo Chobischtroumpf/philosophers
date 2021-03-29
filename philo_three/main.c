@@ -6,11 +6,11 @@
 /*   By: alessandro <alessandro@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/06 14:14:46 by adorigo           #+#    #+#             */
-/*   Updated: 2021/03/29 11:02:42 by alessandro       ###   ########.fr       */
+/*   Updated: 2021/03/29 15:57:27 by alessandro       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo_two.h"
+#include "philo_three.h"
 
 void	*monitor_count(void *context_void)
 {
@@ -50,8 +50,6 @@ void	*monitor(void *context_void)
 		{
 			if (cxt->exit_thread)
 				return ((void*) 0);
-			if (cxt->philo[i].eat_count == cxt->must_eat_count)
-				sem_post(cxt->sem_eaten_enough);
 			sem_wait(cxt->philo[i].mutex);
 			if (get_time() > cxt->philo[i].time_limit)
 			{
@@ -76,6 +74,8 @@ void	*routine(void *philo_void)
 	philo->time_limit = philo->last_time_ate + philo->context->time_to_die;
 	while (1)
 	{
+		if (philo->eat_count == philo->context->must_eat_count)
+			sem_post(philo->context->sem_eaten_enough);
 		if (philo->context->exit_thread)
 			break ;
 		print(philo, THINKING);
@@ -84,15 +84,27 @@ void	*routine(void *philo_void)
 	return ((void *) 0);
 }
 
-static int	start_thread(t_context *context)
+static int	start_process(t_context *context)
 {
 	int			i;
+	void		*philo;
 	pthread_t	tid;
-
 	context->start = get_time();
 	i = 0;
-	if (philo_create_even(context) || philo_create_odd(context))
-		return (1);
+	while (i < context->amount)
+	{
+		philo = (void*)(&context->philo[i++]);
+		context->philo[i].pid = fork();
+		if (context->philo[i].pid < 0)
+			return (1);
+		else if (context->philo[i].pid == 0)
+		{
+			routine(&context->philo[i]);
+			exit(0);
+		}
+		usleep(20);
+		i++;
+	}
 	if (context->must_eat_count > 0)
 	{
 		if (pthread_create(&tid, NULL, &monitor_count, (void *)context) != 0)
@@ -108,14 +120,16 @@ static int	start_thread(t_context *context)
 int	main(int argc, char **argv)
 {
 	t_context	cxt;
+	int			i;
 
 	if (argc < 5 || argc > 6)
 		return (exit_error("error: wrong amount of args\n"));
-	if (init(&cxt, argc, argv))
-		return (ft_clear_context(&cxt) && exit_error("fatal error while initializing struct\n"));
-	if (start_thread(&cxt))
+	if (init(&cxt, argc, argv) || start_process(&cxt))
 		return (ft_clear_context(&cxt) && exit_error("fatal error\n"));
 	sem_wait(cxt.sem_philo_dead);
+	i = 0;
+	while (i < cxt.amount)
+		kill(cxt.philo[i++].pid, SIGKILL);
 	ft_usleep((cxt.time_to_die + cxt.time_to_eat + cxt.time_to_sleep) * 1.1);
 	ft_clear_context(&cxt);
 }

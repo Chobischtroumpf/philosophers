@@ -1,6 +1,6 @@
 # ================================ VARIABLES ================================= #
 
-NAME    = philo_two
+NAME    = philo_three
 CXX     = clang
 CXXFLAGS  = -Wall -Werror -Wextra # -g -fsanitize=address
 

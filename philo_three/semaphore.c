@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   semaphore.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alessandro <alessandro@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 10:28:42 by adorigo           #+#    #+#             */
-/*   Updated: 2021/03/21 15:55:04 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/03/29 15:57:42 by alessandro       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo_two.h"
+#include "philo_three.h"
 
 sem_t	*ft_sem_open(char const *name, int value)
 {
