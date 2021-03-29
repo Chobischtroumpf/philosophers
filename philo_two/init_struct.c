@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_struct.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alessandro <alessandro@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 13:04:56 by adorigo           #+#    #+#             */
-/*   Updated: 2021/03/28 12:12:52 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/03/29 10:53:06 by alessandro       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,14 @@ static int	init_semaphores(t_context *context)
 	context->sem_exit_thread = ft_sem_open(SEM_EXIT, 1);
 	context->sem_write = ft_sem_open(SEM_WRITE, 1);
 	context->sem_philo_dead = ft_sem_open(SEM_DEAD, 1);
-	context->sem_exit_thread = ft_sem_open(SEM_EXIT, 1);
 	context->sem_eaten_enough = ft_sem_open(SEM_PHILOEAT, 1);
 	if (context->sem_forks < 0 || context->sem_write < 0
-		|| context->sem_philo_dead < 0 || context->sem_exit_thread
+		|| context->sem_philo_dead < 0 || context->sem_exit_thread < 0
 		|| context->sem_eaten_enough < 0)
+	{
+		printf("fail here\n");
 		return (1);
+	}
 	sem_wait(context->sem_philo_dead);
 	return (0);
 }
@@ -46,7 +48,6 @@ static int	init_philo(t_context *context)
 		context->philo[i].mutex = ft_sem_open(semaphore, 1);
 		if (context->philo[i].mutex < 0)
 			return (1);
-		// sem_wait(context->philo[i].sem_eaten_enough);
 		i++;
 	}
 	return (0);

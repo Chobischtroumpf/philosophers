@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alessandro <alessandro@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/06 14:14:46 by adorigo           #+#    #+#             */
-/*   Updated: 2021/03/28 12:15:12 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/03/29 10:54:39 by alessandro       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,10 @@ void	*monitor_count(void *context_void)
 	}
 	// ft_usleep(context->time_to_sleep);
 	print(&context->philo[0], FINISHED);
-	sem_wait(context->sem_exit_thread) == -1;
+	sem_wait(context->sem_exit_thread);
 	context->exit_thread = 1;
-	sem_post(context->sem_exit_thread) == -1;
-	sem_post(context->sem_philo_dead) == -1;
+	sem_post(context->sem_exit_thread);
+	sem_post(context->sem_philo_dead);
 	return ((void*) 0);
 }
 
@@ -81,7 +81,6 @@ void	*routine(void *philo_void)
 		print(philo, THINKING);
 		eating(philo);
 	}
-	printf("exiting routine\n");
 	return ((void *) 0);
 }
 
@@ -110,13 +109,10 @@ int	main(int argc, char **argv)
 {
 	t_context	cxt;
 
-	errno = 0;
 	if (argc < 5 || argc > 6)
 		return (exit_error("error: wrong amount of args\n"));
-	perror(NULL);
 	if (init(&cxt, argc, argv))
-		return (ft_clear_context(&cxt) && exit_error("fatal error\n"));
-	perror(NULL);
+		return (ft_clear_context(&cxt) && exit_error("fatal error while initializing struct\n"));
 	if (start_thread(&cxt))
 		return (ft_clear_context(&cxt) && exit_error("fatal error\n"));
 	sem_wait(cxt.sem_philo_dead);
