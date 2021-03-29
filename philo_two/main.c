@@ -6,7 +6,7 @@
 /*   By: alessandro <alessandro@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/06 14:14:46 by adorigo           #+#    #+#             */
-/*   Updated: 2021/03/29 10:54:39 by alessandro       ###   ########.fr       */
+/*   Updated: 2021/03/29 11:02:42 by alessandro       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ void	*monitor_count(void *context_void)
 		}
 		i++;
 	}
-	// ft_usleep(context->time_to_sleep);
 	print(&context->philo[0], FINISHED);
 	sem_wait(context->sem_exit_thread);
 	context->exit_thread = 1;
@@ -50,8 +49,6 @@ void	*monitor(void *context_void)
 		{
 			if (cxt->exit_thread)
 				return ((void*) 0);
-			if (cxt->philo[i].eat_count == cxt->must_eat_count)
-				sem_post(cxt->sem_eaten_enough);
 			sem_wait(cxt->philo[i].mutex);
 			if (get_time() > cxt->philo[i].time_limit)
 			{
@@ -76,6 +73,8 @@ void	*routine(void *philo_void)
 	philo->time_limit = philo->last_time_ate + philo->context->time_to_die;
 	while (1)
 	{
+		if (philo->eat_count == philo->context->must_eat_count)
+			sem_post(philo->context->sem_eaten_enough);
 		if (philo->context->exit_thread)
 			break ;
 		print(philo, THINKING);
