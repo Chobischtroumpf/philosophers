@@ -6,7 +6,7 @@
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 13:03:21 by adorigo           #+#    #+#             */
-/*   Updated: 2021/04/16 11:33:58 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/04/16 12:28:29 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,8 @@ int	ft_clear_context(void)
 	char		semaphore[255];
 	t_context	*context;
 
-	sem_post(context)
 	context = get_context();
+	sem_post(context->sem_write);
 	sem_unlink(SEM_FORK);
 	sem_unlink(SEM_WRITE);
 	sem_unlink(SEM_DEAD);

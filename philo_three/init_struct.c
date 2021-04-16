@@ -6,7 +6,7 @@
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 13:04:56 by adorigo           #+#    #+#             */
-/*   Updated: 2021/04/16 11:10:17 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/04/16 14:15:37 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,7 @@ static int	init_semaphores(t_context *context)
 	if (context->sem_forks < 0 || context->sem_write < 0
 		|| context->sem_philo_dead < 0 || context->sem_exit_thread < 0
 		|| context->sem_eaten_enough < 0)
-	{
-		printf("fail here\n");
 		return (1);
-	}
 	sem_wait(context->sem_philo_dead);
 	return (0);
 }
