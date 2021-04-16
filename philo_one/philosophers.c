@@ -6,7 +6,7 @@
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 11:26:55 by adorigo           #+#    #+#             */
-/*   Updated: 2021/03/21 11:22:32 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/04/16 14:36:11 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	eating(t_philo *philo)
 	ft_usleep(philo->context->time_to_sleep);
 }
 
-int		philo_create_odd(t_context *context)
+int	philo_create_odd(t_context *context)
 {
 	int			i;
 	pthread_t	tid;
@@ -52,7 +52,7 @@ int		philo_create_odd(t_context *context)
 	return (0);
 }
 
-int		philo_create_even(t_context *context)
+int	philo_create_even(t_context *context)
 {
 	int			i;
 	pthread_t	tid;

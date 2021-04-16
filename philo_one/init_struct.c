@@ -6,7 +6,7 @@
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 13:04:56 by adorigo           #+#    #+#             */
-/*   Updated: 2021/04/16 11:56:17 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/04/16 14:34:42 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,9 @@ static int	init_mutexes(t_context *context)
 	pthread_mutex_init(&context->mut_exit_thread, NULL);
 	pthread_mutex_init(&context->mut_philo_dead, NULL);
 	pthread_mutex_lock(&context->mut_philo_dead);
-	if (!(context->mut_forks =
-	(pthread_mutex_t*)malloc(sizeof(*(context->mut_forks)) * context->amount)))
+	context->mut_forks = (pthread_mutex_t *)malloc(sizeof(*(context->mut_forks))
+			* context->amount);
+	if (!context->mut_forks)
 		return (1);
 	while (i < context->amount)
 		pthread_mutex_init(&context->mut_forks[i++], NULL);
@@ -49,7 +50,7 @@ static void	init_philo(t_context *context)
 	}
 }
 
-int			init(t_context *contxt, int argc, char **argv)
+int	init(t_context *contxt, int argc, char **argv)
 {
 	contxt->amount = ft_atoi(argv[1]);
 	contxt->time_to_die = ft_atoi(argv[2]);
@@ -69,8 +70,9 @@ int			init(t_context *contxt, int argc, char **argv)
 	contxt->mut_forks = NULL;
 	contxt->philo = NULL;
 	contxt->exit_thread = 0;
-	if (!(contxt->philo = (t_philo *)malloc(sizeof(*(contxt->philo))
-	* contxt->amount)))
+	contxt->philo = (t_philo *)malloc(sizeof(*(contxt->philo))
+			* contxt->amount);
+	if (!contxt->philo)
 		return (1);
 	init_philo(contxt);
 	return (init_mutexes(contxt));

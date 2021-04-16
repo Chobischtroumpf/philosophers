@@ -6,12 +6,12 @@
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/06 14:14:57 by adorigo           #+#    #+#             */
-/*   Updated: 2021/03/14 15:55:47 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/04/16 14:30:32 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_ONE_H
-# define PHILO_ONE_H
+# define PHILO_ONE_H 1
 
 # include <stdlib.h>
 # include <unistd.h>
@@ -19,7 +19,7 @@
 # include <sys/time.h>
 # include <stdio.h>
 
-typedef enum	e_status
+typedef enum e_status
 {
 	EATING,
 	SLEEPING,
@@ -29,9 +29,9 @@ typedef enum	e_status
 	FINISHED
 }				t_status;
 
-struct s_context;
+struct	s_context;
 
-typedef struct			s_philo
+typedef struct s_philo
 {
 	int					pos;
 	int					eating;
@@ -45,7 +45,7 @@ typedef struct			s_philo
 	pthread_mutex_t		mut_eaten_enough;
 }						t_philo;
 
-typedef struct			s_context
+typedef struct s_context
 {
 	int					exit_thread;
 	int					amount;

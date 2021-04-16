@@ -6,19 +6,19 @@
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/06 14:14:46 by adorigo           #+#    #+#             */
-/*   Updated: 2021/04/16 11:53:14 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/04/16 14:35:52 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_one.h"
 
-void		*monitor_count(void *context_void)
+void	*monitor_count(void *context_void)
 {
 	t_context	*context;
 	int			i;
 
 	i = 0;
-	context = (t_context*)context_void;
+	context = (t_context *)context_void;
 	while (i < context->amount)
 		pthread_mutex_lock(&context->philo[i++].mut_eaten_enough);
 	print(&context->philo[0], FINISHED);
@@ -26,22 +26,22 @@ void		*monitor_count(void *context_void)
 	context->exit_thread = 1;
 	pthread_mutex_unlock(&context->mut_exit_thread);
 	pthread_mutex_unlock(&context->mut_philo_dead);
-	return ((void*)0);
+	return ((void *)0);
 }
 
-void		*monitor(void *context_void)
+void	*monitor(void *context_void)
 {
 	t_context	*cxt;
 	int			i;
 
-	cxt = (t_context*)context_void;
+	cxt = (t_context *)context_void;
 	while (1)
 	{
 		i = -1;
 		while (++i < cxt->amount)
 		{
 			if (cxt->exit_thread)
-				return ((void*)0);
+				return ((void *)0);
 			if (!cxt->philo[i].eating && get_time() > cxt->philo[i].time_limit)
 			{
 				print(&cxt->philo[i], DYING);
@@ -49,17 +49,17 @@ void		*monitor(void *context_void)
 				cxt->exit_thread = 1;
 				pthread_mutex_unlock(&cxt->mut_exit_thread);
 				pthread_mutex_unlock(&cxt->mut_philo_dead);
-				return ((void*)0);
+				return ((void *)0);
 			}
 		}
 	}
 }
 
-void		*routine(void *philo_void)
+void	*routine(void *philo_void)
 {
 	t_philo		*philo;
 
-	philo = (t_philo*)philo_void;
+	philo = (t_philo *)philo_void;
 	philo->last_time_ate = philo->context->start;
 	philo->time_limit = philo->last_time_ate + philo->context->time_to_die;
 	while (1)
@@ -93,7 +93,7 @@ static int	start_thread(t_context *context)
 	return (0);
 }
 
-int			main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
 	t_context	cxt;
 

@@ -6,7 +6,7 @@
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 13:03:21 by adorigo           #+#    #+#             */
-/*   Updated: 2021/03/21 11:18:37 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/04/16 14:55:04 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ unsigned long	get_time(void)
 	return ((tv.tv_sec * (unsigned long)1000) + (tv.tv_usec / 1000));
 }
 
-void			*ft_memset(void *b, int c, size_t len)
+void	*ft_memset(void *b, int c, size_t len)
 {
-	unsigned char *i;
+	unsigned char	*i;
 
 	if (b == 0)
 		return (NULL);
@@ -38,7 +38,7 @@ void			*ft_memset(void *b, int c, size_t len)
 	return (b);
 }
 
-int				ft_clear_context(t_context *contxt)
+int	ft_clear_context(t_context *contxt)
 {
 	int	i;
 
@@ -67,7 +67,7 @@ int				ft_clear_context(t_context *contxt)
 	return (1);
 }
 
-int				exit_error(const char *str)
+int	exit_error(const char *str)
 {
 	if (str)
 		write(1, str, ft_strlen(str));

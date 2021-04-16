@@ -6,14 +6,13 @@
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 12:27:00 by adorigo           #+#    #+#             */
-/*   Updated: 2021/03/21 11:21:04 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/04/16 14:36:39 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_one.h"
 
-static void
-	num_to_str(char t[], unsigned long num, int idx)
+static void	num_to_str(char t[], unsigned long num, int idx)
 {
 	if (idx == 1)
 		t[idx - 1] = num + '0';
@@ -24,10 +23,9 @@ static void
 	}
 }
 
-static int
-	count_digit(unsigned long num)
+static int	count_digit(unsigned long num)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (num == 0)
@@ -40,8 +38,7 @@ static int
 	return (i);
 }
 
-static void
-	copy_to_buff(char *buff, unsigned long time, int index)
+static void	copy_to_buff(char *buff, unsigned long time, int index)
 {
 	int		digit;
 	size_t	size;

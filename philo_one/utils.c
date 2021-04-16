@@ -6,13 +6,13 @@
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 12:57:03 by adorigo           #+#    #+#             */
-/*   Updated: 2021/03/16 18:19:30 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/04/16 14:38:43 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_one.h"
 
-int		ft_strlen(char const *str)
+int	ft_strlen(char const *str)
 {
 	int	i;
 
@@ -22,7 +22,7 @@ int		ft_strlen(char const *str)
 	return (i);
 }
 
-int		ft_atoi(char const *str)
+int	ft_atoi(char const *str)
 {
 	int	i;
 	int	is_neg;
@@ -31,10 +31,13 @@ int		ft_atoi(char const *str)
 	if (!str)
 		return (0);
 	i = 0;
-	while (str[i] == '\t' || str[i] == '\n' || str[i] == '\v' ||
-			str[i] == '\f' || str[i] == '\r' || str[i] == ' ')
+	while (str[i] == '\t' || str[i] == '\n' || str[i] == '\v'
+		|| str[i] == '\f' || str[i] == '\r' || str[i] == ' ')
 		i++;
-	is_neg = (str[i] == '-') ? -1 : 1;
+	if (str[i] == '-')
+		is_neg = -1;
+	else
+		is_neg = 1;
 	if (is_neg == -1 || str[i] == '+')
 		i++;
 	res = 0;
@@ -81,7 +84,7 @@ size_t	ft_strlcat(char *dst, const char *src, size_t size)
 
 void	ft_usleep(unsigned long sleep_time)
 {
-	unsigned long end;
+	unsigned long	end;
 
 	end = get_time() + sleep_time;
 	while (get_time() < end)

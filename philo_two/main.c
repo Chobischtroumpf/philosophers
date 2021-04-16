@@ -6,7 +6,7 @@
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/06 14:14:46 by adorigo           #+#    #+#             */
-/*   Updated: 2021/04/16 12:20:25 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/04/16 14:56:05 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	*monitor_count(void *context_void)
 	int			i;
 
 	i = 0;
-	context = (t_context*)context_void;
+	context = (t_context *)context_void;
 	while (i < context->amount)
 	{
 		if (sem_wait(context->sem_eaten_enough) == -1)
@@ -33,7 +33,7 @@ void	*monitor_count(void *context_void)
 	context->exit_thread = 1;
 	sem_post(context->sem_exit_thread);
 	sem_post(context->sem_philo_dead);
-	return ((void*) 0);
+	return ((void *) 0);
 }
 
 void	*monitor(void *context_void)
@@ -41,14 +41,14 @@ void	*monitor(void *context_void)
 	t_context	*cxt;
 	int			i;
 
-	cxt = (t_context*)context_void;
+	cxt = (t_context *)context_void;
 	while (1)
 	{
 		i = -1;
 		while (++i < cxt->amount)
 		{
 			if (cxt->exit_thread)
-				return ((void*) 0);
+				return ((void *) 0);
 			sem_wait(cxt->philo[i].mutex);
 			if (get_time() > cxt->philo[i].time_limit)
 			{
@@ -57,7 +57,7 @@ void	*monitor(void *context_void)
 				cxt->exit_thread = 1;
 				sem_post(cxt->sem_exit_thread);
 				sem_post(cxt->sem_philo_dead);
-				return ((void*) 0);
+				return ((void *) 0);
 			}
 			sem_post(cxt->philo[i].mutex);
 		}
@@ -68,7 +68,7 @@ void	*routine(void *philo_void)
 {
 	t_philo		*philo;
 
-	philo = (t_philo*)philo_void;
+	philo = (t_philo *)philo_void;
 	philo->last_time_ate = philo->context->start;
 	philo->time_limit = philo->last_time_ate + philo->context->time_to_die;
 	while (1)
