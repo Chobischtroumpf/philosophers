@@ -6,7 +6,7 @@
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 12:27:00 by adorigo           #+#    #+#             */
-/*   Updated: 2021/04/12 14:43:10 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/04/16 11:09:59 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,18 +60,14 @@ static void
 void
 	print(t_philo *philo, int status)
 {
-	static int	end = 0;
 	char		buff[100];
 	t_context	*context;
 
 	context = get_context();
-	// printf("before wait sem_write\n");
 	sem_wait(context->sem_write);
-	// printf("after wait sem_write\n");
-	if (!end)
+	if (!context->end)
 	{
 		ft_memset(buff, 0, 100);
-		// printf("after memset\n");
 		copy_to_buff(buff, get_time() - context->start, philo->pos);
 		if (status == THINKING)
 			ft_strlcat(buff, " is thinking\n", 100);
@@ -83,14 +79,9 @@ void
 			ft_strlcat(buff, " is sleeping\n", 100);
 		else if (status == DYING)
 			ft_strlcat(buff, " died\n", 100);
-		else if (status == FINISHED)
-			ft_strlcat(buff, " finished eating\n", 100);
-		if (status == DYING || status == FINISHED)
-			end = 1;
-		// printf("before puts\n");
+		if (status == FINISHED || status == DYING)
+			context->end = 1;
 		ft_putstr_fd(buff, 1);
 	}
-	// printf("before post sem_write\n");
 	sem_post(context->sem_write);
-	// printf("before post sem_write\n");
 }

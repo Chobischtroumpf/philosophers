@@ -6,7 +6,7 @@
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 13:04:56 by adorigo           #+#    #+#             */
-/*   Updated: 2021/04/12 15:39:11 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/04/16 11:10:17 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ int	init(t_context *contxt, int argc, char **argv)
 	contxt->time_to_die = ft_atoi(argv[2]);
 	contxt->time_to_eat = ft_atoi(argv[3]);
 	contxt->time_to_sleep = ft_atoi(argv[4]);
+	contxt->end = 0;
 	if (argc == 6)
 	{
 		contxt->must_eat_count = ft_atoi(argv[5]);

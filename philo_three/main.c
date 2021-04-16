@@ -6,7 +6,7 @@
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/06 14:14:46 by adorigo           #+#    #+#             */
-/*   Updated: 2021/04/12 15:39:48 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/04/16 11:03:22 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,7 @@ void	*monitor_count(void *context_void)
 		}
 		i++;
 	}
-	ft_usleep(context->time_to_sleep);
-	print(0, FINISHED);
+	// ft_usleep(context->time_to_sleep);
 	sem_wait(context->sem_exit_thread);
 	context->exit_thread = 1;
 	sem_post(context->sem_exit_thread);

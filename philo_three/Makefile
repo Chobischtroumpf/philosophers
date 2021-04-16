@@ -2,7 +2,7 @@
 
 NAME    = philo_three
 CXX     = clang
-CXXFLAGS  = -Wall -Werror -Wextra # -g -fsanitize=address
+CXXFLAGS  = -Wall -Werror -Wextra  -g -fsanitize=address
 
 SRCDIR  = ./
 INCDIR  = includes/
