@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_struct.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alessandro <alessandro@student.42.fr>      +#+  +:+       +#+        */
+/*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 13:04:56 by adorigo           #+#    #+#             */
-/*   Updated: 2021/03/29 15:56:02 by alessandro       ###   ########.fr       */
+/*   Updated: 2021/04/12 15:39:11 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ static int	init_philo(t_context *context)
 	{
 		context->philo[i].pos = i;
 		context->philo[i].eat_count = 0;
-		context->philo[i].context = context;
 		make_semaphore_name(SEM_PHILO, (char *)semaphore, i);
 		context->philo[i].mutex = ft_sem_open(semaphore, 1);
 		if (context->philo[i].mutex < 0)
@@ -62,7 +61,7 @@ int	init(t_context *contxt, int argc, char **argv)
 	if (argc == 6)
 	{
 		contxt->must_eat_count = ft_atoi(argv[5]);
-		if (!contxt->must_eat_count)
+		if (contxt->must_eat_count <= 0)
 			return (1);
 	}
 	else

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alessandro <alessandro@student.42.fr>      +#+  +:+       +#+        */
+/*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 13:03:21 by adorigo           #+#    #+#             */
-/*   Updated: 2021/03/29 15:57:52 by alessandro       ###   ########.fr       */
+/*   Updated: 2021/04/12 12:24:03 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,24 +52,26 @@ void	*ft_memset(void *b, int c, size_t len)
 	return (b);
 }
 
-int	ft_clear_context(t_context *contxt)
+int	ft_clear_context(void)
 {
-	int		i;
-	char	semaphore[255];
+	int			i;
+	char		semaphore[255];
+	t_context	*context;
 
+	context = get_context();
 	sem_unlink(SEM_FORK);
 	sem_unlink(SEM_WRITE);
 	sem_unlink(SEM_DEAD);
 	sem_unlink(SEM_PHILOEAT);
-	if (contxt->philo)
+	if (context->philo)
 	{
 		i = -1;
-		while (++i < contxt->amount && &contxt->philo[i] != NULL)
+		while (++i < context->amount && &context->philo[i] != NULL)
 		{
 			make_semaphore_name(SEM_PHILO, (char *)semaphore, i);
 			sem_unlink(semaphore);
 		}
-		free(contxt->philo);
+		free(context->philo);
 	}
 	return (1);
 }

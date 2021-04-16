@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   philo_three.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alessandro <alessandro@student.42.fr>      +#+  +:+       +#+        */
+/*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/06 14:14:57 by adorigo           #+#    #+#             */
-/*   Updated: 2021/03/29 11:36:24 by alessandro       ###   ########.fr       */
+/*   Updated: 2021/04/12 15:17:24 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_TWO_H
-# define PHILO_TWO_H
+# define PHILO_TWO_H 1
 
 # include <stdlib.h>
 # include <unistd.h>
@@ -28,15 +28,12 @@
 # define SEM_PHILO		"psemPhilo"
 # define SEM_PHILOEAT	"psemPhiloEat"
 
-typedef enum e_status
-{
-	EATING,
-	SLEEPING,
-	FORK,
-	THINKING,
-	DYING,
-	FINISHED
-}				t_status;
+# define	EATING 0
+# define	SLEEPING 1
+# define	FORK 2
+# define	THINKING 3
+# define	DYING 4
+# define	FINISHED 5
 
 struct	s_context;
 
@@ -47,7 +44,7 @@ typedef struct s_philo
 	unsigned long		time_limit;
 	unsigned long		last_time_ate;
 	int					eat_count;
-	struct s_context	*context;
+	// struct s_context	*context;
 	sem_t				*mutex;
 }						t_philo;
 
@@ -72,22 +69,22 @@ int						ft_strlen(const char *str);
 int						ft_atoi(const char *str);
 void					ft_putstr_fd(char *str, int fd);
 void					*ft_memset(void *b, int c, size_t len);
-int						ft_clear_context(t_context *context);
+int						ft_clear_context(void);
 int						exit_error(const char *str);
 int						init(t_context *contxt, int argc, char **argv);
-void					take_fork(t_philo *philo);
-void					drop_fork(t_philo *philo);
 void					eating(t_philo *philo);
-void					print(t_philo *philo, t_status status);
+void					print(t_philo *philo, int status);
 void					ft_usleep(unsigned long sleep_time);
 unsigned long			get_time(void);
 size_t					ft_strlcat(char *dst, const char *src, size_t size);
 int						philo_create_odd(t_context *context);
 int						philo_create_even(t_context *context);
-void					*routine(void *philo_void);
+int						routine(void *philo_void);
+void					*monitor(void *context_void);
 sem_t					*ft_sem_open(char const *name, int value);
 char					*make_semaphore_name(char const *base, char *buffer,
 							int position);
 int						ft_strcpy(char *dst, const char *src);
+t_context				*get_context(void);
 
 #endif

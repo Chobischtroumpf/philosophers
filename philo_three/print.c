@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alessandro <alessandro@student.42.fr>      +#+  +:+       +#+        */
+/*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 12:27:00 by adorigo           #+#    #+#             */
-/*   Updated: 2021/03/29 15:56:13 by alessandro       ###   ########.fr       */
+/*   Updated: 2021/04/12 14:43:10 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,39 +58,39 @@ static void
 }
 
 void
-	print(t_philo *philo, t_status s)
+	print(t_philo *philo, int status)
 {
 	static int	end = 0;
 	char		buff[100];
+	t_context	*context;
 
-	if (sem_wait(philo->context->sem_write) == -1)
-	{
-		exit_error("error waiting for semaphore sem_write\n");
-		perror(NULL);
-	}
+	context = get_context();
+	// printf("before wait sem_write\n");
+	sem_wait(context->sem_write);
+	// printf("after wait sem_write\n");
 	if (!end)
 	{
 		ft_memset(buff, 0, 100);
-		copy_to_buff(buff, get_time() - philo->context->start, philo->pos);
-		if (s == THINKING)
+		// printf("after memset\n");
+		copy_to_buff(buff, get_time() - context->start, philo->pos);
+		if (status == THINKING)
 			ft_strlcat(buff, " is thinking\n", 100);
-		else if (s == FORK)
+		else if (status == FORK)
 			ft_strlcat(buff, " picked up a fork\n", 100);
-		else if (s == EATING)
+		else if (status == EATING)
 			ft_strlcat(buff, " is eating\n", 300);
-		else if (s == SLEEPING)
+		else if (status == SLEEPING)
 			ft_strlcat(buff, " is sleeping\n", 100);
-		else if (s == DYING)
+		else if (status == DYING)
 			ft_strlcat(buff, " died\n", 100);
-		else if (s == FINISHED)
+		else if (status == FINISHED)
 			ft_strlcat(buff, " finished eating\n", 100);
-		if (s == DYING || s == FINISHED)
+		if (status == DYING || status == FINISHED)
 			end = 1;
+		// printf("before puts\n");
 		ft_putstr_fd(buff, 1);
 	}
-	if (sem_post(philo->context->sem_write) == -1)
-	{
-		exit_error("error posting semaphore sem_write\n");
-		perror(NULL);
-	}
+	// printf("before post sem_write\n");
+	sem_post(context->sem_write);
+	// printf("before post sem_write\n");
 }
