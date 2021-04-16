@@ -6,7 +6,7 @@
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 12:27:00 by adorigo           #+#    #+#             */
-/*   Updated: 2021/04/16 11:09:59 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/04/16 11:41:18 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,23 +65,19 @@ void
 
 	context = get_context();
 	sem_wait(context->sem_write);
-	if (!context->end)
-	{
-		ft_memset(buff, 0, 100);
-		copy_to_buff(buff, get_time() - context->start, philo->pos);
-		if (status == THINKING)
-			ft_strlcat(buff, " is thinking\n", 100);
-		else if (status == FORK)
-			ft_strlcat(buff, " picked up a fork\n", 100);
-		else if (status == EATING)
-			ft_strlcat(buff, " is eating\n", 300);
-		else if (status == SLEEPING)
-			ft_strlcat(buff, " is sleeping\n", 100);
-		else if (status == DYING)
-			ft_strlcat(buff, " died\n", 100);
-		if (status == FINISHED || status == DYING)
-			context->end = 1;
-		ft_putstr_fd(buff, 1);
-	}
-	sem_post(context->sem_write);
+	ft_memset(buff, 0, 100);
+	copy_to_buff(buff, get_time() - context->start, philo->pos);
+	if (status == THINKING)
+		ft_strlcat(buff, " is thinking\n", 100);
+	else if (status == FORK)
+		ft_strlcat(buff, " picked up a fork\n", 100);
+	else if (status == EATING)
+		ft_strlcat(buff, " is eating\n", 300);
+	else if (status == SLEEPING)
+		ft_strlcat(buff, " is sleeping\n", 100);
+	else if (status == DYING)
+		ft_strlcat(buff, " died\n", 100);
+	ft_putstr_fd(buff, 1);
+	if (status != DYING)
+		sem_post(context->sem_write);
 }

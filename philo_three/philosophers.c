@@ -6,15 +6,15 @@
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 11:26:55 by adorigo           #+#    #+#             */
-/*   Updated: 2021/04/16 10:59:35 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/04/16 11:41:00 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_three.h"
 
-t_context *get_context(void)
+t_context	*get_context(void)
 {
-	static t_context context;
+	static t_context	context;
 
 	return (&context);
 }
@@ -51,7 +51,7 @@ void	*monitor(void *philo_void)
 	while (1)
 	{
 		if (cxt->exit_thread)
-			return ((void*) 0);
+			return ((void *) 0);
 		sem_wait(philo->mutex);
 		if (get_time() > philo->time_limit)
 		{
@@ -60,22 +60,21 @@ void	*monitor(void *philo_void)
 			cxt->exit_thread = 1;
 			sem_post(cxt->sem_exit_thread);
 			sem_post(cxt->sem_philo_dead);
-			return ((void*) 0);
+			return ((void *) 0);
 		}
 		sem_post(philo->mutex);
 		ft_usleep(1);
 	}
-
 }
 
-int			routine(void *philo_void)
+int	routine(void *philo_void)
 {
 	t_philo		*philo;
 	pthread_t	tid;
 	t_context	*context;
 
 	context = get_context();
-	philo = (t_philo*)philo_void;
+	philo = (t_philo *)philo_void;
 	philo->last_time_ate = context->start;
 	philo->time_limit = philo->last_time_ate + context->time_to_die;
 	if (pthread_create(&tid, NULL, &monitor, (void *)philo_void) != 0)

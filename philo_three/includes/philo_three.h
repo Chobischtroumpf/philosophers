@@ -6,12 +6,12 @@
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/06 14:14:57 by adorigo           #+#    #+#             */
-/*   Updated: 2021/04/16 11:09:33 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/04/16 11:33:49 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHILO_TWO_H
-# define PHILO_TWO_H 1
+#ifndef PHILO_THREE_H
+# define PHILO_THREE_H 1
 
 # include <stdlib.h>
 # include <unistd.h>
@@ -33,7 +33,6 @@
 # define	FORK 2
 # define	THINKING 3
 # define	DYING 4
-# define	FINISHED 5
 
 struct	s_context;
 
@@ -44,7 +43,6 @@ typedef struct s_philo
 	unsigned long		time_limit;
 	unsigned long		last_time_ate;
 	int					eat_count;
-	// struct s_context	*context;
 	sem_t				*mutex;
 }						t_philo;
 
