@@ -6,7 +6,7 @@
 /*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/06 14:14:46 by adorigo           #+#    #+#             */
-/*   Updated: 2021/03/21 13:51:29 by adorigo          ###   ########.fr       */
+/*   Updated: 2021/04/16 11:53:14 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ int			main(int argc, char **argv)
 	if (argc < 5 || argc > 6)
 		return (exit_error("error: wrong amount of args\n"));
 	if (init(&cxt, argc, argv))
-		return (ft_clear_context(&cxt) && exit_error("fatal error\n"));
+		return (exit_error("fatal error\n"));
 	if (start_thread(&cxt))
 		return (ft_clear_context(&cxt) && exit_error("fatal error\n"));
 	pthread_mutex_lock(&cxt.mut_philo_dead);

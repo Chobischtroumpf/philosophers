@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alessandro <alessandro@student.42.fr>      +#+  +:+       +#+        */
+/*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/06 14:14:46 by adorigo           #+#    #+#             */
-/*   Updated: 2021/03/29 11:02:42 by alessandro       ###   ########.fr       */
+/*   Updated: 2021/04/16 12:20:25 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,11 +107,15 @@ static int	start_thread(t_context *context)
 int	main(int argc, char **argv)
 {
 	t_context	cxt;
+	int			err_ret;
 
 	if (argc < 5 || argc > 6)
 		return (exit_error("error: wrong amount of args\n"));
-	if (init(&cxt, argc, argv))
-		return (ft_clear_context(&cxt) && exit_error("fatal error while initializing struct\n"));
+	err_ret = init(&cxt, argc, argv);
+	if (err_ret == 2)
+		ft_clear_context(&cxt);
+	if (err_ret)
+		return (exit_error("fatal error while initializing struct\n"));
 	if (start_thread(&cxt))
 		return (ft_clear_context(&cxt) && exit_error("fatal error\n"));
 	sem_wait(cxt.sem_philo_dead);

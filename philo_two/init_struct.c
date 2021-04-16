@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_struct.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alessandro <alessandro@student.42.fr>      +#+  +:+       +#+        */
+/*   By: adorigo <adorigo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/13 13:04:56 by adorigo           #+#    #+#             */
-/*   Updated: 2021/03/29 10:53:06 by alessandro       ###   ########.fr       */
+/*   Updated: 2021/04/16 12:22:11 by adorigo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,7 @@ static int	init_semaphores(t_context *context)
 	if (context->sem_forks < 0 || context->sem_write < 0
 		|| context->sem_philo_dead < 0 || context->sem_exit_thread < 0
 		|| context->sem_eaten_enough < 0)
-	{
-		printf("fail here\n");
-		return (1);
-	}
+		return (2);
 	sem_wait(context->sem_philo_dead);
 	return (0);
 }
@@ -75,7 +72,9 @@ int	init(t_context *contxt, int argc, char **argv)
 	contxt->exit_thread = 0;
 	contxt->philo = (t_philo *)malloc(sizeof(*(contxt->philo))
 			* contxt->amount);
-	if (!contxt->philo || init_philo(contxt))
+	if (!contxt->philo)
 		return (1);
+	else if (init_philo(contxt))
+		return (2);
 	return (init_semaphores(contxt));
 }
